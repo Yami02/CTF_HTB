@@ -20,7 +20,7 @@ Based on the exploit found at [Exploit-DB #52136](https://www.exploit-db.com/exp
 
 ### 2.2 Interactive shell access
 
-After obtaining a basic shell, Python was used to spawn a more comfortable interactive shell:
+Python interactive shell:
 
 ```bash
 python3 -c 'import pty; pty.spawn("/bin/bash")'
