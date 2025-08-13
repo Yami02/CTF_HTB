@@ -1,5 +1,12 @@
 # Editor - HackTheBox 
 
+## 1.1 Nmap scan
+
+Performed to identify open ports, services, versions, and operating system:
+
+```bash
+nmap -A -T4 10.10.11.80 -oN portscan.txt
+```
 ## 1.2 Nuclei scan for vulnerabilities
 
 Performed to identify known vulnerabilities in the machine's HTTP service:
