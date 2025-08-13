@@ -1,5 +1,7 @@
 # Editor - HackTheBox 
 
+## 1. Reconnaissance
+
 ## 1.1 Nmap scan
 
 Performed to identify open ports, services, versions, and operating system:
