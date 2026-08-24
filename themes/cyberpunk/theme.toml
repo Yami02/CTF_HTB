@@ -1,0 +1,12 @@
+[module]
+  [module.hugoVersion]
+    extended = false
+    min = "0.110.0"
+
+name = "cyberpunk"
+license = "MIT"
+minVersion = "0.110.0"
+description = "Cyberpunk neon pink & green theme for CTF/hacking blogs"
+homepage = "https://github.com/Yami02/CTF_HTB"
+tags = ["cyberpunk", "hacking", "ctf", "dark", "neon"]
+features = ["blog"]

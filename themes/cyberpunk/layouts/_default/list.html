@@ -1,0 +1,73 @@
+{{ define "main" }}
+{{ $sectionColor := "var(--pink)" }}
+{{ $sectionIcon := "//" }}
+{{ if eq .Section "challenges" }}{{ $sectionColor = "var(--cyan)" }}{{ $sectionIcon = "⚡" }}{{ end }}
+{{ if eq .Section "labs" }}{{ $sectionColor = "var(--green)" }}{{ $sectionIcon = "🖥" }}{{ end }}
+{{ if eq .Section "sherlocks" }}{{ $sectionColor = "#b300ff" }}{{ $sectionIcon = "🔍" }}{{ end }}
+
+<main class="site-main">
+
+  <div class="post-header">
+    <div class="post-category" style="color:{{ $sectionColor }}">{{ $sectionIcon }} {{ .Section | upper }}</div>
+    <h1 class="post-title" style="color:{{ $sectionColor }};text-shadow:0 0 20px {{ $sectionColor }}60">
+      {{ .Title }}
+    </h1>
+    <p style="font-family:var(--font-mono);color:var(--text-dim);font-size:0.85rem">
+      {{ len .Pages }} writeup{{ if gt (len .Pages) 1 }}s{{ end }} encontrado{{ if gt (len .Pages) 1 }}s{{ end }}
+    </p>
+  </div>
+
+  <!-- Filtros de dificuldade -->
+  <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:2rem">
+    <button class="filter-btn active" onclick="filterDiff(this,'all')" style="--fc:{{ $sectionColor }}">Todos</button>
+    <button class="filter-btn" onclick="filterDiff(this,'Easy')" style="--fc:#00ff99">Easy</button>
+    <button class="filter-btn" onclick="filterDiff(this,'Medium')" style="--fc:#febc2e">Medium</button>
+    <button class="filter-btn" onclick="filterDiff(this,'Hard')" style="--fc:#ff2d78">Hard</button>
+    <button class="filter-btn" onclick="filterDiff(this,'Insane')" style="--fc:#b300ff">Insane</button>
+  </div>
+
+  <style>
+    .filter-btn {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--fc, var(--border));
+      color: var(--fc, var(--text-dim));
+      background: transparent;
+      cursor: pointer;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--fc, var(--border));
+      color: #000;
+      box-shadow: 0 0 8px var(--fc, transparent);
+    }
+  </style>
+
+  <div class="post-grid" id="cards-container">
+    {{ range sort .Pages "Date" "desc" }}
+    <div class="card-wrapper" data-diff="{{ .Params.difficulty | default "Unknown" }}">
+      {{ partial "card.html" . }}
+    </div>
+    {{ end }}
+  </div>
+
+  {{ template "_internal/pagination.html" . }}
+
+</main>
+
+<script>
+function filterDiff(btn, diff) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.card-wrapper').forEach(card => {
+    if (diff === 'all' || card.dataset.diff === diff) {
+      card.style.display = '';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+</script>
+{{ end }}
