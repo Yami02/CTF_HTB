@@ -1,0 +1,29 @@
+<header class="site-header">
+  <div class="header-inner">
+    <a href="{{ "/" | relURL }}" class="site-logo">
+      <span class="logo-bracket">[</span>
+      <span class="logo-name">{{ .Site.Title | strings.TrimSuffix " // CYBER_OPS" }}</span>
+      <span class="logo-slash">//</span>
+      <span style="color:var(--green);font-size:0.85em">CYBER_OPS</span>
+      <span class="logo-bracket">]</span>
+    </a>
+
+    <nav class="site-nav" id="site-nav">
+      {{ range .Site.Menus.main }}
+      <a href="{{ .URL | relURL }}" {{ if $.IsHome }}{{ if eq .URL "/" }}class="active"{{ end }}{{ else }}{{ if eq .URL (printf "/%s/" (strings.ToLower $.Section)) }}class="active"{{ end }}{{ end }}>
+        {{ .Name }}
+      </a>
+      {{ end }}
+    </nav>
+
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<script>
+  document.getElementById('nav-toggle').addEventListener('click', function() {
+    document.getElementById('site-nav').classList.toggle('open');
+  });
+</script>

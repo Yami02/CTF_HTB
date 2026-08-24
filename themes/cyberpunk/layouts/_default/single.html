@@ -1,0 +1,71 @@
+{{ define "main" }}
+{{ $typeColor := "var(--pink)" }}
+{{ if eq .Type "challenges" }}{{ $typeColor = "var(--cyan)" }}{{ end }}
+{{ if eq .Type "labs" }}{{ $typeColor = "var(--green)" }}{{ end }}
+{{ if eq .Type "sherlocks" }}{{ $typeColor = "#b300ff" }}{{ end }}
+
+<main class="site-main">
+  <article>
+    <header class="post-header">
+      <div class="post-category" style="color:{{ $typeColor }}">
+        {{ .Type | upper }}
+        {{ with .Params.difficulty }}
+          &nbsp;// <span style="color:{{ if eq . "Easy" }}#00ff99{{ else if eq . "Medium" }}#febc2e{{ else if eq . "Hard" }}#ff2d78{{ else }}#b300ff{{ end }}">{{ . }}</span>
+        {{ end }}
+        {{ if .Params.pwned }}&nbsp;<span style="color:var(--green)">✓ PWNED</span>{{ end }}
+      </div>
+
+      <h1 class="post-title">{{ .Title }}</h1>
+
+      <div class="post-meta">
+        <span>📅 {{ .Date.Format "02 Jan 2006" }}</span>
+        {{ if .Params.os }}<span>🖥 {{ .Params.os }}</span>{{ end }}
+        {{ if .Params.points }}<span>⭐ {{ .Params.points }} pts</span>{{ end }}
+        {{ if .Site.Params.showReadingTime }}<span>⏱ {{ .ReadingTime }} min read</span>{{ end }}
+      </div>
+
+      {{ with .Params.tags }}
+      <div class="card-tags" style="margin-top:1rem">
+        {{ range . }}
+        <a href="{{ "/tags/" | relURL }}{{ . | urlize }}" class="tag">#{{ . }}</a>
+        {{ end }}
+      </div>
+      {{ end }}
+    </header>
+
+    {{ if .Params.machine_info }}
+    <div class="terminal" style="margin-bottom:2rem">
+      <div class="terminal-bar">
+        <span class="terminal-dot red"></span>
+        <span class="terminal-dot yellow"></span>
+        <span class="terminal-dot green"></span>
+        <span class="terminal-title">machine_info</span>
+      </div>
+      <div class="terminal-body">
+        {{ range $k, $v := .Params.machine_info }}
+        <div>
+          <span class="prompt">{{ $k }}:</span>
+          <span class="cmd">{{ $v }}</span>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+    {{ end }}
+
+    <div class="post-content">
+      {{ .Content }}
+    </div>
+
+    <!-- nav entre posts -->
+    <nav style="display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;border-top:1px solid var(--border);padding-top:2rem;flex-wrap:wrap">
+      {{ with .PrevInSection }}
+      <a href="{{ .Permalink }}" class="btn btn-secondary" style="font-size:0.75rem">← {{ .Title }}</a>
+      {{ end }}
+      <a href="{{ .CurrentSection.Permalink }}" class="btn btn-secondary" style="font-size:0.75rem">↑ {{ .CurrentSection.Title }}</a>
+      {{ with .NextInSection }}
+      <a href="{{ .Permalink }}" class="btn btn-secondary" style="font-size:0.75rem">{{ .Title }} →</a>
+      {{ end }}
+    </nav>
+  </article>
+</main>
+{{ end }}

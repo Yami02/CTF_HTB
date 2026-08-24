@@ -1,0 +1,13 @@
+<footer class="site-footer">
+  <div class="footer-brand">{{ .Site.Title }}</div>
+  <p>
+    <a href="{{ .Site.Params.github }}" target="_blank" rel="noopener">GitHub</a>
+    &nbsp;//&nbsp;
+    <a href="{{ .Site.Params.htb_profile }}" target="_blank" rel="noopener">HackTheBox</a>
+    &nbsp;//&nbsp;
+    <a href="{{ "/timeline/" | relURL }}">Timeline</a>
+  </p>
+  <p style="margin-top:0.75rem;font-size:0.7rem">
+    &gt; {{ now.Year }}_{{ .Site.Params.author }} — All flags belong to us.
+  </p>
+</footer>
