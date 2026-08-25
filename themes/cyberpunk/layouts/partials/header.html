@@ -1,29 +1,36 @@
 <header class="site-header">
-  <div class="header-inner">
-    <a href="{{ "/" | relURL }}" class="site-logo">
-      <span class="logo-bracket">[</span>
-      <span class="logo-name">{{ .Site.Title | strings.TrimSuffix " // CYBER_OPS" }}</span>
-      <span class="logo-slash">//</span>
-      <span style="color:var(--green);font-size:0.85em">CYBER_OPS</span>
-      <span class="logo-bracket">]</span>
-    </a>
+  <button class="sidebar-toggle" id="sb-toggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 
-    <nav class="site-nav" id="site-nav">
-      {{ range .Site.Menus.main }}
-      <a href="{{ .URL | relURL }}" {{ if $.IsHome }}{{ if eq .URL "/" }}class="active"{{ end }}{{ else }}{{ if eq .URL (printf "/%s/" (strings.ToLower $.Section)) }}class="active"{{ end }}{{ end }}>
-        {{ .Name }}
+  <div class="header-logo-slot">
+    <a href="{{ "/" | relURL }}" class="site-logo">
+      <span class="logo-main">0xYami02</span>
+      <span class="logo-sub">// 0xNihil</span>
+    </a>
+  </div>
+
+  <!-- breadcrumb -->
+  <div class="header-path">
+    {{ if .IsHome }}
+      <span class="crumb">~</span>
+    {{ else }}
+      <span>~</span>
+      <span class="sep">/</span>
+      {{ if .Section }}
+      <a href="{{ .CurrentSection.Permalink }}" style="color:var(--dim);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--dim)'">
+        {{ .Section }}
       </a>
       {{ end }}
-    </nav>
+      {{ if not .IsSection }}
+      <span class="sep">/</span>
+      <span class="crumb">{{ .File.BaseFileName }}.md</span>
+      {{ end }}
+    {{ end }}
+  </div>
 
-    <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+  <div class="header-actions">
+    <a href="{{ .Site.Params.github }}" target="_blank" rel="noopener">gh</a>
+    <a href="{{ .Site.Params.htb_profile }}" target="_blank" rel="noopener">htb</a>
   </div>
 </header>
-
-<script>
-  document.getElementById('nav-toggle').addEventListener('click', function() {
-    document.getElementById('site-nav').classList.toggle('open');
-  });
-</script>

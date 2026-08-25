@@ -1,0 +1,107 @@
+{{ $challenges := where .Site.RegularPages "Type" "challenges" }}
+{{ $labs      := where .Site.RegularPages "Type" "labs" }}
+{{ $sherlocks := where .Site.RegularPages "Type" "sherlocks" }}
+{{ $currentPath := .RelPermalink }}
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-scroll">
+
+    <div class="explorer-label">Explorer</div>
+
+    <!-- CHALLENGES -->
+    <div class="sb-section{{ if strings.HasPrefix $currentPath "/challenges" }} open{{ end }}" id="sb-challenges">
+      <div class="sb-section-header" onclick="toggleSection('sb-challenges')">
+        <span class="sb-chevron">▶</span>
+        <span class="sb-icon" style="color:var(--cyan)">⚡</span>
+        <span class="sb-section-name" style="color:var(--cyan)">challenges</span>
+        <span class="sb-count">{{ len $challenges }}</span>
+      </div>
+      <div class="sb-files">
+        {{ range sort $challenges "Date" "desc" }}
+        <a href="{{ .Permalink }}" class="sb-file{{ if eq .RelPermalink $currentPath }} active{{ end }}">
+          <span class="sb-file-icon">📄</span>{{ .File.BaseFileName }}.md
+          {{ if .Params.pwned }}<span class="diff-dot" style="background:var(--green);box-shadow:0 0 4px var(--green)"></span>{{ end }}
+        </a>
+        {{ end }}
+        {{ if eq (len $challenges) 0 }}
+        <span class="sb-file" style="color:var(--dim);font-style:italic">// vazio</span>
+        {{ end }}
+      </div>
+    </div>
+
+    <!-- LABS -->
+    <div class="sb-section{{ if strings.HasPrefix $currentPath "/labs" }} open{{ end }}" id="sb-labs">
+      <div class="sb-section-header" onclick="toggleSection('sb-labs')">
+        <span class="sb-chevron">▶</span>
+        <span class="sb-icon" style="color:var(--green)">🖥</span>
+        <span class="sb-section-name" style="color:var(--green)">labs</span>
+        <span class="sb-count">{{ len $labs }}</span>
+      </div>
+      <div class="sb-files">
+        {{ range sort $labs "Date" "desc" }}
+        <a href="{{ .Permalink }}" class="sb-file{{ if eq .RelPermalink $currentPath }} active{{ end }}">
+          <span class="sb-file-icon">📄</span>{{ .File.BaseFileName }}.md
+          {{ if .Params.pwned }}<span class="diff-dot" style="background:var(--green);box-shadow:0 0 4px var(--green)"></span>{{ end }}
+        </a>
+        {{ end }}
+        {{ if eq (len $labs) 0 }}
+        <span class="sb-file" style="color:var(--dim);font-style:italic">// vazio</span>
+        {{ end }}
+      </div>
+    </div>
+
+    <!-- SHERLOCKS -->
+    <div class="sb-section{{ if strings.HasPrefix $currentPath "/sherlocks" }} open{{ end }}" id="sb-sherlocks">
+      <div class="sb-section-header" onclick="toggleSection('sb-sherlocks')">
+        <span class="sb-chevron">▶</span>
+        <span class="sb-icon" style="color:var(--purple)">🔍</span>
+        <span class="sb-section-name" style="color:var(--purple)">sherlocks</span>
+        <span class="sb-count">{{ len $sherlocks }}</span>
+      </div>
+      <div class="sb-files">
+        {{ range sort $sherlocks "Date" "desc" }}
+        <a href="{{ .Permalink }}" class="sb-file{{ if eq .RelPermalink $currentPath }} active{{ end }}">
+          <span class="sb-file-icon">📄</span>{{ .File.BaseFileName }}.md
+          {{ if .Params.pwned }}<span class="diff-dot" style="background:var(--green);box-shadow:0 0 4px var(--green)"></span>{{ end }}
+        </a>
+        {{ end }}
+        {{ if eq (len $sherlocks) 0 }}
+        <span class="sb-file" style="color:var(--dim);font-style:italic">// vazio</span>
+        {{ end }}
+      </div>
+    </div>
+
+    <!-- TIMELINE (historical, below folders) -->
+    <div class="sb-timeline">
+      <div class="sb-timeline-label">Histórico</div>
+      <div class="tl-entries">
+        {{ range first 12 (sort .Site.RegularPages "Date" "desc") }}
+        {{ $tc := "var(--pink)" }}
+        {{ if eq .Type "challenges" }}{{ $tc = "var(--cyan)"   }}{{ end }}
+        {{ if eq .Type "labs"       }}{{ $tc = "var(--green)"  }}{{ end }}
+        {{ if eq .Type "sherlocks"  }}{{ $tc = "var(--purple)" }}{{ end }}
+        <div class="tl-entry">
+          <a href="{{ .Permalink }}"></a>
+          <span class="tl-node" style="background:{{ $tc }};color:{{ $tc }}"></span>
+          <div class="tl-info">
+            <div class="tl-name">{{ .Title }}</div>
+            <div class="tl-meta">{{ .Date.Format "02 Jan 06" }} · {{ .Type }}</div>
+          </div>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+
+  </div><!-- /sidebar-scroll -->
+</aside>
+
+<script>
+function toggleSection(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// mobile toggle
+document.getElementById('sb-toggle')?.addEventListener('click', function() {
+  document.getElementById('sidebar').classList.toggle('open');
+});
+</script>

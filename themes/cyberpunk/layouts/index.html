@@ -1,131 +1,71 @@
 {{ define "main" }}
+{{ $recent := first 3 (sort .Site.RegularPages "Date" "desc") }}
 
-<!-- HERO -->
-<section class="hero">
-  <p class="hero-tagline">&gt; root@ctf_htb:~# <span style="animation:blink 1s step-end infinite">_</span></p>
-  <h1 class="hero-title">
-    <span class="glitch" data-text="{{ .Site.Title }}">
-      <span class="accent-pink">CTF</span><span style="color:#fff">_</span><span class="accent-green">HTB</span>
-    </span>
-  </h1>
-  <p class="hero-sub">{{ .Site.Params.tagline }}</p>
-  <div class="hero-cta">
-    <a href="#writeups" class="btn btn-primary">[ Explorar Writeups ]</a>
-    <a href="{{ "/timeline/" | relURL }}" class="btn btn-secondary">[ Timeline ]</a>
+<div class="content-area">
+
+  <!-- HERO INTRO -->
+  <div class="home-hero fade-in">
+    <p class="home-greeting">&gt; whoami <span class="blink">_</span></p>
+    <h1 class="home-title">
+      <span class="pk">0xYami02</span>
+      <span class="sep">//</span>
+      <span class="gn">0xNihil</span>
+    </h1>
+    <p class="home-sub">{{ .Site.Params.tagline }}</p>
   </div>
-</section>
 
-<!-- TERMINAL WELCOME -->
-<main class="site-main">
-
-  <div class="terminal">
-    <div class="terminal-bar">
-      <span class="terminal-dot red"></span>
-      <span class="terminal-dot yellow"></span>
-      <span class="terminal-dot green"></span>
-      <span class="terminal-title">bash — 80×24</span>
+  <!-- TERMINAL -->
+  <div class="terminal fade-in" style="animation-delay:.1s">
+    <div class="tbar">
+      <span class="tdot r"></span><span class="tdot y"></span><span class="tdot g"></span>
+      <span class="ttitle">bash — 0xNihil@htb</span>
     </div>
-    <div class="terminal-body">
-      <div><span class="prompt">yami02@htb:~$</span> <span class="cmd">whoami</span></div>
-      <div class="out">{{ .Site.Params.author }} — CTF player &amp; HTB enthusiast</div>
-      <div style="margin-top:0.5rem"><span class="prompt">yami02@htb:~$</span> <span class="cmd">ls -la categories/</span></div>
-      <div class="out">drwxr-xr-x  <span style="color:var(--cyan)">challenges/</span></div>
-      <div class="out">drwxr-xr-x  <span style="color:var(--green)">labs/</span></div>
-      <div class="out">drwxr-xr-x  <span style="color:var(--purple)">sherlocks/</span></div>
-      <div style="margin-top:0.5rem"><span class="prompt">yami02@htb:~$</span> <span class="cmd">cat flag.txt</span></div>
-      <div class="out"><span class="flag">HTB{h4ck_th3_pl4n3t_0n3_fl4g_4t_4_t1m3}</span></div>
-      <div style="margin-top:0.5rem"><span class="prompt">yami02@htb:~$</span> <span class="cursor"></span></div>
+    <div class="tbody">
+      <div><span class="pr">nihil@htb:~$</span> <span class="cm">cat /etc/profile</span></div>
+      <div class="ot">CTF player · HTB enthusiast · 0xNihil</div>
+      <div style="margin-top:.5rem"><span class="pr">nihil@htb:~$</span> <span class="cm">ls categories/</span></div>
+      <div class="ot">
+        <span style="color:var(--cyan)">challenges/</span>&nbsp;&nbsp;
+        <span style="color:var(--green)">labs/</span>&nbsp;&nbsp;
+        <span style="color:var(--purple)">sherlocks/</span>
+      </div>
+      <div style="margin-top:.5rem"><span class="pr">nihil@htb:~$</span> <span class="cm">cat flag.txt</span></div>
+      <div class="ot"><span class="fl">HTB{h4ck_th3_pl4n3t_0n3_fl4g_4t_4_t1m3}</span></div>
+      <div style="margin-top:.5rem"><span class="pr">nihil@htb:~$</span> <span class="cur"></span></div>
     </div>
   </div>
 
-  <!-- STATS -->
-  {{ $all := .Site.RegularPages }}
-  {{ $challenges := where $all "Type" "challenges" }}
-  {{ $labs := where $all "Type" "labs" }}
-  {{ $sherlocks := where $all "Type" "sherlocks" }}
-  {{ $pwned := where $all ".Params.pwned" true }}
-
-  <div class="stats-bar">
-    <div class="stat-item">
-      <span class="stat-value">{{ len $challenges }}</span>
-      <span class="stat-label">Challenges</span>
+  <!-- ÚLTIMAS 3 ATUALIZAÇÕES -->
+  {{ if $recent }}
+  <div style="margin-top:2.5rem">
+    <div class="sec-hdr" style="color:var(--green)">
+      <h2>// Últimas atualizações</h2>
     </div>
-    <div class="stat-item">
-      <span class="stat-value">{{ len $labs }}</span>
-      <span class="stat-label">Labs</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-value">{{ len $sherlocks }}</span>
-      <span class="stat-label">Sherlocks</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-value">{{ len $pwned }}</span>
-      <span class="stat-label">Pwned</span>
-    </div>
-  </div>
-
-  <!-- RECENT WRITEUPS -->
-  <div id="writeups">
-    <div class="section-header">
-      <h2>// Recentes</h2>
-    </div>
-    <div class="post-grid">
-      {{ range first 6 (sort .Site.RegularPages "Date" "desc") }}
-        {{ partial "card.html" . }}
+    <div class="recent-list">
+      {{ range $recent }}
+      {{ $c := "var(--pink)" }}
+      {{ if eq .Type "challenges" }}{{ $c = "var(--cyan)"   }}{{ end }}
+      {{ if eq .Type "labs"       }}{{ $c = "var(--green)"  }}{{ end }}
+      {{ if eq .Type "sherlocks"  }}{{ $c = "var(--purple)" }}{{ end }}
+      <a href="{{ .Permalink }}" class="rc-card fade-in" style="--c:{{ $c }}">
+        <span class="rc-type-dot" style="background:{{ $c }};box-shadow:0 0 8px {{ $c }}"></span>
+        <div class="rc-info">
+          <div class="rc-name">{{ .Title }}</div>
+          <div class="rc-meta">
+            <span class="rc-date">{{ .Date.Format "02 Jan 2006" }}</span>
+            <span>{{ .Type }}</span>
+            {{ with .Params.difficulty }}
+            <span style="color:{{ if eq . "Easy" }}var(--green){{ else if eq . "Medium" }}var(--yellow){{ else if eq . "Hard" }}var(--pink){{ else }}var(--purple){{ end }}">{{ . }}</span>
+            {{ end }}
+            {{ if .Params.pwned }}<span style="color:var(--green)">✓ pwned</span>{{ end }}
+          </div>
+        </div>
+        <span class="rc-arrow">→</span>
+      </a>
       {{ end }}
-    </div>
-  </div>
-
-  <!-- CHALLENGES -->
-  {{ if $challenges }}
-  <div style="margin-top:3rem">
-    <div class="section-header">
-      <h2 style="color:var(--cyan)">// Challenges</h2>
-    </div>
-    <div class="post-grid">
-      {{ range first 3 (sort $challenges "Date" "desc") }}
-        {{ partial "card.html" . }}
-      {{ end }}
-    </div>
-    <div style="text-align:center;margin-top:1.5rem">
-      <a href="{{ "/challenges/" | relURL }}" class="btn btn-secondary">Ver todos →</a>
     </div>
   </div>
   {{ end }}
 
-  <!-- LABS -->
-  {{ if $labs }}
-  <div style="margin-top:3rem">
-    <div class="section-header">
-      <h2 style="color:var(--green)">// Labs</h2>
-    </div>
-    <div class="post-grid">
-      {{ range first 3 (sort $labs "Date" "desc") }}
-        {{ partial "card.html" . }}
-      {{ end }}
-    </div>
-    <div style="text-align:center;margin-top:1.5rem">
-      <a href="{{ "/labs/" | relURL }}" class="btn btn-secondary">Ver todos →</a>
-    </div>
-  </div>
-  {{ end }}
-
-  <!-- SHERLOCKS -->
-  {{ if $sherlocks }}
-  <div style="margin-top:3rem">
-    <div class="section-header">
-      <h2 style="color:var(--purple)">// Sherlocks</h2>
-    </div>
-    <div class="post-grid">
-      {{ range first 3 (sort $sherlocks "Date" "desc") }}
-        {{ partial "card.html" . }}
-      {{ end }}
-    </div>
-    <div style="text-align:center;margin-top:1.5rem">
-      <a href="{{ "/sherlocks/" | relURL }}" class="btn btn-secondary">Ver todos →</a>
-    </div>
-  </div>
-  {{ end }}
-
-</main>
+</div>
 {{ end }}
