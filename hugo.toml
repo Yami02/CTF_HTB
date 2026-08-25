@@ -24,6 +24,6 @@ paginate = 10
     lineNumbersInTable = true
 
 [outputs]
-  home = ["HTML", "RSS", "JSON"]
+  home = ["HTML", "RSS"]
   section = ["HTML"]
   page = ["HTML"]
