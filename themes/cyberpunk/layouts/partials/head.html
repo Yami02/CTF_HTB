@@ -8,8 +8,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
 
-<!-- Theme CSS -->
-<link rel="stylesheet" href="{{ "/css/cyberpunk.css" | relURL }}">
+<!-- Theme CSS (via Hugo asset pipeline — fingerprinted, always correct URL) -->
+{{ $css := resources.Get "css/cyberpunk.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" crossorigin="anonymous">
 
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🔓</text></svg>'>
