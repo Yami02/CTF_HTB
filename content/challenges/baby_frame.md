@@ -180,9 +180,3 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-
-## Flag
-
-```
-HTB{901f426f6ab1938d83bf6184f8aa0307}
-```
