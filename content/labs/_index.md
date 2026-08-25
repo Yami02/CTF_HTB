@@ -1,4 +1,4 @@
 ---
 title: "Labs"
-description: "HTB Labs & Machines Writeups"
+description: "Writeups de máquinas do HackTheBox — Linux, Windows, Active Directory e mais."
 ---
