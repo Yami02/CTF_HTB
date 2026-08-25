@@ -3,7 +3,7 @@ title: "noerror"
 date: 2026-08-25
 type: "challenges"
 difficulty: "Easy"
-pwned: false
+pwned: True
 points: 30
 tags: ["ccsds", "satellite", "crc", "protocol", "pwntools"]
 summary: "Evolução do desafio CCSDS anterior: o servidor agora valida o Frame Error Control Field (CRC-16) do TC Transfer Frame antes de aceitar o comando."
@@ -174,10 +174,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-```
-
-## Flag
-
-```
-(pendente — rodar o script e colar aqui a flag retornada pelo servidor)
 ```
