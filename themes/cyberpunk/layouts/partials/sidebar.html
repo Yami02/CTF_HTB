@@ -81,7 +81,7 @@
     <div class="sb-timeline">
       <div class="sb-timeline-label">Histórico</div>
       <div class="tl-entries">
-        {{ range first 12 (sort .Site.RegularPages "Date" "desc") }}
+        {{ range first 3 (sort .Site.RegularPages "Date" "desc") }}
         {{ $tc := "var(--pink)" }}
         {{ if eq .Type "challenges" }}{{ $tc = "var(--cyan)"   }}{{ end }}
         {{ if eq .Type "labs"       }}{{ $tc = "var(--green)"  }}{{ end }}
@@ -107,5 +107,16 @@ function toggleSection(id) {
 document.getElementById('sb-toggle')?.addEventListener('click', function () {
   document.getElementById('sidebar').classList.toggle('open');
   document.body.classList.toggle('sb-overlay');
+  this.classList.toggle('active');
+  this.setAttribute('aria-expanded', this.classList.contains('active'));
+});
+
+// fecha o menu ao clicar fora (no overlay) ou ao navegar
+document.body.addEventListener('click', function (e) {
+  if (e.target === document.body && document.body.classList.contains('sb-overlay')) {
+    document.getElementById('sidebar')?.classList.remove('open');
+    document.getElementById('sb-toggle')?.classList.remove('active');
+    document.body.classList.remove('sb-overlay');
+  }
 });
 </script>

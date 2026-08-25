@@ -168,22 +168,67 @@ body::after {
   text-shadow: var(--gg);
 }
 
-/* hamburger */
+/* hamburger — cyberpunk toggle */
 .sidebar-toggle {
   display: none;
+  position: relative;
   flex-direction: column;
-  gap: 4px;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 38px;
+  height: 38px;
   cursor: pointer;
-  background: none;
-  border: none;
-  padding: 8px 10px;
-  margin-right: .25rem;
+  background: rgba(0,255,153,.04);
+  border: 1px solid var(--sborder);
+  padding: 0;
+  margin-right: .5rem;
+  overflow: hidden;
+  transition: border-color .2s, box-shadow .2s, background .2s;
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
 }
-.sidebar-toggle span {
+.sidebar-toggle:hover {
+  border-color: var(--green);
+  box-shadow: 0 0 10px rgba(0,255,153,.25), inset 0 0 8px rgba(0,255,153,.08);
+  background: rgba(0,255,153,.08);
+}
+.sidebar-toggle:active { transform: scale(.94); }
+
+/* faixa de glow que "escaneia" no hover */
+.st-glow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent, rgba(0,255,153,.18), transparent);
+  transform: translateY(-100%);
+  pointer-events: none;
+}
+.sidebar-toggle:hover .st-glow { animation: scan-sweep .9s ease-in-out infinite; }
+
+.st-bar {
   display: block;
-  width: 20px; height: 2px;
+  width: 19px;
+  height: 2px;
   background: var(--green);
-  transition: all .3s;
+  box-shadow: 0 0 4px rgba(0,255,153,.6);
+  transition: transform .3s cubic-bezier(.4,0,.2,1), opacity .2s, background .2s, width .2s;
+}
+.sidebar-toggle:hover .st-bar:nth-child(1) { width: 24px; }
+.sidebar-toggle:hover .st-bar:nth-child(3) { width: 14px; }
+
+/* estado aberto → vira um X rosa neon */
+.sidebar-toggle.active { border-color: var(--pink); box-shadow: 0 0 10px rgba(255,45,120,.3); }
+.sidebar-toggle.active .st-bar {
+  background: var(--pink);
+  box-shadow: 0 0 6px rgba(255,45,120,.7);
+  width: 19px;
+}
+.sidebar-toggle.active .st-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.sidebar-toggle.active .st-bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.sidebar-toggle.active .st-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@keyframes scan-sweep {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
 }
 
 /* ── APP LAYOUT ───────────────────────────────────────────── */
