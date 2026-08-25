@@ -1,4 +1,4 @@
 ---
 title: "Challenges"
-description: "HTB Challenges Writeups"
+description: "Writeups de challenges do HackTheBox — Reverse Engineering, Crypto, Web, Pwn, Forensics e mais."
 ---
