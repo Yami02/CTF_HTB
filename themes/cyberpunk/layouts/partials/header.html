@@ -24,7 +24,11 @@
       {{ end }}
       {{ if not .IsSection }}
       <span class="sep">/</span>
-      <span class="crumb">{{ .File.BaseFileName }}.md</span>
+      {{ with .File }}
+      <span class="crumb">{{ .BaseFileName }}.md</span>
+      {{ else }}
+      <span class="crumb">{{ .Title | urlize }}</span>
+      {{ end }}
       {{ end }}
     {{ end }}
   </div>
