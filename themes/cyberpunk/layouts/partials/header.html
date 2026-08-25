@@ -37,5 +37,8 @@
   <div class="header-actions">
     <a href="{{ .Site.Params.github }}" target="_blank" rel="noopener">gh</a>
     <a href="{{ .Site.Params.htb_profile }}" target="_blank" rel="noopener">htb</a>
+    {{ with .Site.Params.linkedin }}
+    <a href="{{ . }}" target="_blank" rel="noopener">in</a>
+    {{ end }}
   </div>
 </header>

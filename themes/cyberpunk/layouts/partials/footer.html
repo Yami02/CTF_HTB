@@ -4,6 +4,10 @@
     <a href="{{ .Site.Params.github }}" target="_blank" rel="noopener">GitHub</a>
     &nbsp;·&nbsp;
     <a href="{{ .Site.Params.htb_profile }}" target="_blank" rel="noopener">HackTheBox</a>
+    {{ with .Site.Params.linkedin }}
+    &nbsp;·&nbsp;
+    <a href="{{ . }}" target="_blank" rel="noopener">LinkedIn</a>
+    {{ end }}
   </span>
   <span>&gt; {{ now.Year }}_nihil.exec()</span>
 </footer>

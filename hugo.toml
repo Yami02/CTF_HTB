@@ -12,6 +12,7 @@ paginate = 10
   tagline = "nihil.exec();"
   github = "https://github.com/Yami02"
   htb_profile = "https://www.hackthebox.com"
+  linkedin = "https://www.linkedin.com/in/adalberto-nobre-neto/"
   showReadingTime = true
 
 [taxonomies]
