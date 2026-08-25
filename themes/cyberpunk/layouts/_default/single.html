@@ -7,37 +7,36 @@
 <div class="content-area" style="--c:{{ $c }}">
 
   <!-- eyebrow -->
-  <div class="post-eyebrow">
+  <div class="post-eyebrow fade-in">
     {{ .Type | upper }}
     {{ with .Params.difficulty }}
-    <span style="color:{{ if eq . "Easy" }}var(--green){{ else if eq . "Medium" }}var(--yellow){{ else if eq . "Hard" }}var(--pink){{ else }}var(--purple){{ end }};border:1px solid currentColor;padding:1px 7px;font-size:.7rem">
-      {{ . }}
-    </span>
+    <span class="diff-inline" style="color:{{ if eq . "Easy" }}var(--green){{ else if eq . "Medium" }}var(--yellow){{ else if eq . "Hard" }}var(--pink){{ else }}var(--purple){{ end }}">{{ . }}</span>
     {{ end }}
     {{ if .Params.pwned }}<span class="pwned-badge">✓ pwned</span>{{ end }}
   </div>
 
   <!-- title -->
-  <h1 class="post-title">{{ .Title }}</h1>
+  <h1 class="post-title fade-in" style="animation-delay:.05s">{{ .Title }}</h1>
 
   <!-- meta row -->
-  <div class="post-meta-row">
+  <div class="post-meta-row fade-in" style="animation-delay:.1s">
     <span>📅 {{ .Date.Format "02 Jan 2006" }}</span>
     {{ with .Params.os      }}<span>🖥 {{ . }}</span>{{ end }}
     {{ with .Params.points  }}<span>⭐ {{ . }} pts</span>{{ end }}
-    {{ if .Site.Params.showReadingTime }}<span>⏱ {{ .ReadingTime }} min</span>{{ end }}
+    {{ if .Site.Params.showReadingTime }}<span>⏱ {{ .ReadingTime }} min read</span>{{ end }}
   </div>
 
   <!-- tags -->
   {{ with .Params.tags }}
-  <div class="tags-row">
+  <div class="tags-row fade-in" style="animation-delay:.12s">
     {{ range . }}<a href="{{ "/tags/" | relURL }}{{ . | urlize }}" class="tag">#{{ . }}</a>{{ end }}
   </div>
   {{ end }}
 
   <!-- machine info box -->
   {{ with .Params.machine_info }}
-  <div class="machine-info">
+  <div class="machine-info fade-in" style="animation-delay:.15s">
+    <div class="machine-info-label">// machine info</div>
     <table>
       <tbody>
         {{ range $k, $v := . }}
@@ -51,8 +50,16 @@
   </div>
   {{ end }}
 
+  <!-- summary callout -->
+  {{ with .Params.summary }}
+  <div class="post-summary fade-in" style="animation-delay:.18s">
+    <span class="post-summary-label">TL;DR</span>
+    {{ . }}
+  </div>
+  {{ end }}
+
   <!-- content -->
-  <div class="post-content">
+  <div class="post-content fade-in" style="animation-delay:.2s">
     {{ .Content }}
   </div>
 

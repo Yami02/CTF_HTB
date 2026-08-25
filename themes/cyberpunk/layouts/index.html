@@ -1,9 +1,13 @@
 {{ define "main" }}
-{{ $recent := first 3 (sort .Site.RegularPages "Date" "desc") }}
+{{ $recent     := first 3 (sort .Site.RegularPages "Date" "desc") }}
+{{ $challenges := where .Site.RegularPages "Type" "challenges" }}
+{{ $labs       := where .Site.RegularPages "Type" "labs" }}
+{{ $sherlocks  := where .Site.RegularPages "Type" "sherlocks" }}
+{{ $pwned      := where .Site.RegularPages ".Params.pwned" true }}
 
 <div class="content-area">
 
-  <!-- HERO INTRO -->
+  <!-- HERO -->
   <div class="home-hero fade-in">
     <p class="home-greeting">&gt; whoami <span class="blink">_</span></p>
     <h1 class="home-title">
@@ -35,9 +39,29 @@
     </div>
   </div>
 
-  <!-- ÚLTIMAS 3 ATUALIZAÇÕES -->
+  <!-- STATS -->
+  <div class="stats-row fade-in" style="animation-delay:.2s">
+    <a href="{{ "/challenges/" | relURL }}" class="stat-card" style="--sc:var(--cyan)">
+      <span class="stat-num">{{ len $challenges }}</span>
+      <span class="stat-label">⚡ Challenges</span>
+    </a>
+    <a href="{{ "/labs/" | relURL }}" class="stat-card" style="--sc:var(--green)">
+      <span class="stat-num">{{ len $labs }}</span>
+      <span class="stat-label">🖥 Labs</span>
+    </a>
+    <a href="{{ "/sherlocks/" | relURL }}" class="stat-card" style="--sc:var(--purple)">
+      <span class="stat-num">{{ len $sherlocks }}</span>
+      <span class="stat-label">🔍 Sherlocks</span>
+    </a>
+    <div class="stat-card" style="--sc:var(--pink)">
+      <span class="stat-num">{{ len $pwned }}</span>
+      <span class="stat-label">✓ Pwned</span>
+    </div>
+  </div>
+
+  <!-- RECENT 3 -->
   {{ if $recent }}
-  <div style="margin-top:2.5rem">
+  <div style="margin-top:2.5rem" class="fade-in" style="animation-delay:.3s">
     <div class="sec-hdr" style="color:var(--green)">
       <h2>// Últimas atualizações</h2>
     </div>
@@ -48,14 +72,14 @@
       {{ if eq .Type "labs"       }}{{ $c = "var(--green)"  }}{{ end }}
       {{ if eq .Type "sherlocks"  }}{{ $c = "var(--purple)" }}{{ end }}
       <a href="{{ .Permalink }}" class="rc-card fade-in" style="--c:{{ $c }}">
-        <span class="rc-type-dot" style="background:{{ $c }};box-shadow:0 0 8px {{ $c }}"></span>
+        <span class="rc-type-dot"></span>
         <div class="rc-info">
           <div class="rc-name">{{ .Title }}</div>
           <div class="rc-meta">
             <span class="rc-date">{{ .Date.Format "02 Jan 2006" }}</span>
             <span>{{ .Type }}</span>
             {{ with .Params.difficulty }}
-            <span style="color:{{ if eq . "Easy" }}var(--green){{ else if eq . "Medium" }}var(--yellow){{ else if eq . "Hard" }}var(--pink){{ else }}var(--purple){{ end }}">{{ . }}</span>
+            <span class="rc-diff-badge" style="color:{{ if eq . "Easy" }}var(--green){{ else if eq . "Medium" }}var(--yellow){{ else if eq . "Hard" }}var(--pink){{ else }}var(--purple){{ end }}">{{ . }}</span>
             {{ end }}
             {{ if .Params.pwned }}<span style="color:var(--green)">✓ pwned</span>{{ end }}
           </div>
