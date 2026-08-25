@@ -3,6 +3,11 @@
 <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
 <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} // {{ .Site.Title }}{{ end }}</title>
 
+{{/* No-JS fallback: also hard-redirect 404 → home after 5s via meta refresh */}}
+{{ if eq .Kind "404" }}
+<meta http-equiv="refresh" content="5;url={{ "/" | relURL }}">
+{{ end }}
+
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
