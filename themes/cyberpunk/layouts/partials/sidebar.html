@@ -2,6 +2,12 @@
 {{ $labs      := where .Site.RegularPages "Type" "labs" }}
 {{ $sherlocks := where .Site.RegularPages "Type" "sherlocks" }}
 {{ $currentPath := .RelPermalink }}
+{{/* Use .Section / .Type so it works with any baseURL subpath */}}
+{{ $curSection  := .Section }}
+{{ $curType     := .Type }}
+{{ $openChal    := or (eq $curSection "challenges") (eq $curType "challenges") }}
+{{ $openLabs    := or (eq $curSection "labs")       (eq $curType "labs") }}
+{{ $openSher    := or (eq $curSection "sherlocks")  (eq $curType "sherlocks") }}
 
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-scroll">
@@ -9,7 +15,7 @@
     <div class="explorer-label">Explorer</div>
 
     <!-- CHALLENGES -->
-    <div class="sb-section{{ if strings.HasPrefix $currentPath "/challenges" }} open{{ end }}" id="sb-challenges">
+    <div class="sb-section{{ if $openChal }} open{{ end }}" id="sb-challenges">
       <div class="sb-section-header" onclick="toggleSection('sb-challenges')">
         <span class="sb-chevron">▶</span>
         <span class="sb-icon" style="color:var(--cyan)">⚡</span>
@@ -18,8 +24,8 @@
       </div>
       <div class="sb-files">
         {{ range sort $challenges "Date" "desc" }}
-        <a href="{{ .Permalink }}" class="sb-file{{ if eq .RelPermalink $currentPath }} active{{ end }}">
-          <span class="sb-file-icon">📄</span>{{ .File.BaseFileName }}.md
+        <a href="{{ .Permalink }}" class="sb-file{{ if eq .RelPermalink $currentPath }} active{{ end }}" title="{{ .Title }}">
+          <span class="sb-file-icon">📄</span>{{ with .File }}{{ .BaseFileName }}.md{{ else }}{{ .Title | urlize }}.md{{ end }}
           {{ if .Params.pwned }}<span class="diff-dot" style="background:var(--green);box-shadow:0 0 4px var(--green)"></span>{{ end }}
         </a>
         {{ end }}
@@ -30,7 +36,7 @@
     </div>
 
     <!-- LABS -->
-    <div class="sb-section{{ if strings.HasPrefix $currentPath "/labs" }} open{{ end }}" id="sb-labs">
+    <div class="sb-section{{ if $openLabs }} open{{ end }}" id="sb-labs">
       <div class="sb-section-header" onclick="toggleSection('sb-labs')">
         <span class="sb-chevron">▶</span>
         <span class="sb-icon" style="color:var(--green)">🖥</span>
@@ -39,8 +45,8 @@
       </div>
       <div class="sb-files">
         {{ range sort $labs "Date" "desc" }}
-        <a href="{{ .Permalink }}" class="sb-file{{ if eq .RelPermalink $currentPath }} active{{ end }}">
-          <span class="sb-file-icon">📄</span>{{ .File.BaseFileName }}.md
+        <a href="{{ .Permalink }}" class="sb-file{{ if eq .RelPermalink $currentPath }} active{{ end }}" title="{{ .Title }}">
+          <span class="sb-file-icon">📄</span>{{ with .File }}{{ .BaseFileName }}.md{{ else }}{{ .Title | urlize }}.md{{ end }}
           {{ if .Params.pwned }}<span class="diff-dot" style="background:var(--green);box-shadow:0 0 4px var(--green)"></span>{{ end }}
         </a>
         {{ end }}
@@ -51,7 +57,7 @@
     </div>
 
     <!-- SHERLOCKS -->
-    <div class="sb-section{{ if strings.HasPrefix $currentPath "/sherlocks" }} open{{ end }}" id="sb-sherlocks">
+    <div class="sb-section{{ if $openSher }} open{{ end }}" id="sb-sherlocks">
       <div class="sb-section-header" onclick="toggleSection('sb-sherlocks')">
         <span class="sb-chevron">▶</span>
         <span class="sb-icon" style="color:var(--purple)">🔍</span>
@@ -60,8 +66,8 @@
       </div>
       <div class="sb-files">
         {{ range sort $sherlocks "Date" "desc" }}
-        <a href="{{ .Permalink }}" class="sb-file{{ if eq .RelPermalink $currentPath }} active{{ end }}">
-          <span class="sb-file-icon">📄</span>{{ .File.BaseFileName }}.md
+        <a href="{{ .Permalink }}" class="sb-file{{ if eq .RelPermalink $currentPath }} active{{ end }}" title="{{ .Title }}">
+          <span class="sb-file-icon">📄</span>{{ with .File }}{{ .BaseFileName }}.md{{ else }}{{ .Title | urlize }}.md{{ end }}
           {{ if .Params.pwned }}<span class="diff-dot" style="background:var(--green);box-shadow:0 0 4px var(--green)"></span>{{ end }}
         </a>
         {{ end }}
@@ -71,7 +77,7 @@
       </div>
     </div>
 
-    <!-- TIMELINE (historical, below folders) -->
+    <!-- TIMELINE -->
     <div class="sb-timeline">
       <div class="sb-timeline-label">Histórico</div>
       <div class="tl-entries">
@@ -80,14 +86,13 @@
         {{ if eq .Type "challenges" }}{{ $tc = "var(--cyan)"   }}{{ end }}
         {{ if eq .Type "labs"       }}{{ $tc = "var(--green)"  }}{{ end }}
         {{ if eq .Type "sherlocks"  }}{{ $tc = "var(--purple)" }}{{ end }}
-        <div class="tl-entry">
-          <a href="{{ .Permalink }}"></a>
+        <a class="tl-entry" href="{{ .Permalink }}">
           <span class="tl-node" style="background:{{ $tc }};color:{{ $tc }}"></span>
           <div class="tl-info">
             <div class="tl-name">{{ .Title }}</div>
             <div class="tl-meta">{{ .Date.Format "02 Jan 06" }} · {{ .Type }}</div>
           </div>
-        </div>
+        </a>
         {{ end }}
       </div>
     </div>
@@ -99,9 +104,8 @@
 function toggleSection(id) {
   document.getElementById(id).classList.toggle('open');
 }
-
-// mobile toggle
-document.getElementById('sb-toggle')?.addEventListener('click', function() {
+document.getElementById('sb-toggle')?.addEventListener('click', function () {
   document.getElementById('sidebar').classList.toggle('open');
+  document.body.classList.toggle('sb-overlay');
 });
 </script>
