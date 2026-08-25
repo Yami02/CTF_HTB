@@ -1,21 +1,11 @@
 {{ define "main" }}
-<main class="site-main">
-  <div class="error-page">
-    <span class="error-code glitch" data-text="404">404</span>
-    <p class="error-msg">// Error: page not found — segmentation fault</p>
-    <div class="terminal" style="max-width:480px;margin:0 auto 2rem">
-      <div class="terminal-bar">
-        <span class="terminal-dot red"></span>
-        <span class="terminal-dot yellow"></span>
-        <span class="terminal-dot green"></span>
-      </div>
-      <div class="terminal-body">
-        <div><span class="prompt">yami02@htb:~$</span> <span class="cmd">cd {{ .RelPermalink }}</span></div>
-        <div class="out" style="color:var(--pink)">bash: cd: No such file or directory</div>
-        <div style="margin-top:0.5rem"><span class="prompt">yami02@htb:~$</span> <span class="cursor"></span></div>
-      </div>
-    </div>
-    <a href="{{ "/" | relURL }}" class="btn btn-primary">[ cd ~ ]</a>
+<div class="content-area" style="text-align:center;padding:5rem 2rem">
+  <div style="font-family:var(--head);font-size:clamp(5rem,20vw,10rem);font-weight:900;color:var(--pink);text-shadow:var(--gp);line-height:1">
+    404
   </div>
-</main>
+  <p style="font-family:var(--mono);color:var(--dim);margin:1.25rem 0 2rem">
+    // bash: {{ .RelPermalink }}: No such file or directory
+  </p>
+  <a href="{{ "/" | relURL }}" class="btn btn-p">[ cd ~ ]</a>
+</div>
 {{ end }}

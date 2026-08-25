@@ -1,48 +1,20 @@
 baseURL = 'https://yami02.github.io/CTF_HTB/'
 languageCode = 'pt-br'
-title = 'CTF_HTB // CYBER_OPS'
+title = '0xYami02'
 theme = 'cyberpunk'
 paginate = 10
 
 [params]
-  description = "Writeups & CTF Hacking Notes"
-  author = "Yami02"
-  tagline = "hack_the_planet();"
+  description = "Writeups & CTF Hacking Notes — 0xNihil"
+  author = "0xYami02"
+  handle = "0xNihil"
+  tagline = "nihil.exec();"
   github = "https://github.com/Yami02"
   htb_profile = "https://www.hackthebox.com"
-  neon_color_primary = "#ff2d78"
-  neon_color_secondary = "#00ff99"
   showReadingTime = true
-
-[menu]
-  [[menu.main]]
-    name = "Home"
-    url = "/"
-    weight = 1
-  [[menu.main]]
-    name = "Challenges"
-    url = "/challenges/"
-    weight = 2
-  [[menu.main]]
-    name = "Labs"
-    url = "/labs/"
-    weight = 3
-  [[menu.main]]
-    name = "Sherlocks"
-    url = "/sherlocks/"
-    weight = 4
-  [[menu.main]]
-    name = "Timeline"
-    url = "/timeline/"
-    weight = 5
-  [[menu.main]]
-    name = "Tags"
-    url = "/tags/"
-    weight = 6
 
 [taxonomies]
   tag = "tags"
-  category = "categories"
   difficulty = "difficulty"
 
 [markup]
@@ -53,5 +25,5 @@ paginate = 10
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
-  section = ["HTML", "RSS"]
+  section = ["HTML"]
   page = ["HTML"]

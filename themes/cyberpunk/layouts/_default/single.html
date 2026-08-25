@@ -1,71 +1,71 @@
 {{ define "main" }}
-{{ $typeColor := "var(--pink)" }}
-{{ if eq .Type "challenges" }}{{ $typeColor = "var(--cyan)" }}{{ end }}
-{{ if eq .Type "labs" }}{{ $typeColor = "var(--green)" }}{{ end }}
-{{ if eq .Type "sherlocks" }}{{ $typeColor = "#b300ff" }}{{ end }}
+{{ $c := "var(--pink)" }}
+{{ if eq .Type "challenges" }}{{ $c = "var(--cyan)"   }}{{ end }}
+{{ if eq .Type "labs"       }}{{ $c = "var(--green)"  }}{{ end }}
+{{ if eq .Type "sherlocks"  }}{{ $c = "var(--purple)" }}{{ end }}
 
-<main class="site-main">
-  <article>
-    <header class="post-header">
-      <div class="post-category" style="color:{{ $typeColor }}">
-        {{ .Type | upper }}
-        {{ with .Params.difficulty }}
-          &nbsp;// <span style="color:{{ if eq . "Easy" }}#00ff99{{ else if eq . "Medium" }}#febc2e{{ else if eq . "Hard" }}#ff2d78{{ else }}#b300ff{{ end }}">{{ . }}</span>
-        {{ end }}
-        {{ if .Params.pwned }}&nbsp;<span style="color:var(--green)">✓ PWNED</span>{{ end }}
-      </div>
+<div class="content-area" style="--c:{{ $c }}">
 
-      <h1 class="post-title">{{ .Title }}</h1>
-
-      <div class="post-meta">
-        <span>📅 {{ .Date.Format "02 Jan 2006" }}</span>
-        {{ if .Params.os }}<span>🖥 {{ .Params.os }}</span>{{ end }}
-        {{ if .Params.points }}<span>⭐ {{ .Params.points }} pts</span>{{ end }}
-        {{ if .Site.Params.showReadingTime }}<span>⏱ {{ .ReadingTime }} min read</span>{{ end }}
-      </div>
-
-      {{ with .Params.tags }}
-      <div class="card-tags" style="margin-top:1rem">
-        {{ range . }}
-        <a href="{{ "/tags/" | relURL }}{{ . | urlize }}" class="tag">#{{ . }}</a>
-        {{ end }}
-      </div>
-      {{ end }}
-    </header>
-
-    {{ if .Params.machine_info }}
-    <div class="terminal" style="margin-bottom:2rem">
-      <div class="terminal-bar">
-        <span class="terminal-dot red"></span>
-        <span class="terminal-dot yellow"></span>
-        <span class="terminal-dot green"></span>
-        <span class="terminal-title">machine_info</span>
-      </div>
-      <div class="terminal-body">
-        {{ range $k, $v := .Params.machine_info }}
-        <div>
-          <span class="prompt">{{ $k }}:</span>
-          <span class="cmd">{{ $v }}</span>
-        </div>
-        {{ end }}
-      </div>
-    </div>
+  <!-- eyebrow -->
+  <div class="post-eyebrow">
+    {{ .Type | upper }}
+    {{ with .Params.difficulty }}
+    <span style="color:{{ if eq . "Easy" }}var(--green){{ else if eq . "Medium" }}var(--yellow){{ else if eq . "Hard" }}var(--pink){{ else }}var(--purple){{ end }};border:1px solid currentColor;padding:1px 7px;font-size:.7rem">
+      {{ . }}
+    </span>
     {{ end }}
+    {{ if .Params.pwned }}<span class="pwned-badge">✓ pwned</span>{{ end }}
+  </div>
 
-    <div class="post-content">
-      {{ .Content }}
-    </div>
+  <!-- title -->
+  <h1 class="post-title">{{ .Title }}</h1>
 
-    <!-- nav entre posts -->
-    <nav style="display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;border-top:1px solid var(--border);padding-top:2rem;flex-wrap:wrap">
-      {{ with .PrevInSection }}
-      <a href="{{ .Permalink }}" class="btn btn-secondary" style="font-size:0.75rem">← {{ .Title }}</a>
-      {{ end }}
-      <a href="{{ .CurrentSection.Permalink }}" class="btn btn-secondary" style="font-size:0.75rem">↑ {{ .CurrentSection.Title }}</a>
-      {{ with .NextInSection }}
-      <a href="{{ .Permalink }}" class="btn btn-secondary" style="font-size:0.75rem">{{ .Title }} →</a>
-      {{ end }}
-    </nav>
-  </article>
-</main>
+  <!-- meta row -->
+  <div class="post-meta-row">
+    <span>📅 {{ .Date.Format "02 Jan 2006" }}</span>
+    {{ with .Params.os      }}<span>🖥 {{ . }}</span>{{ end }}
+    {{ with .Params.points  }}<span>⭐ {{ . }} pts</span>{{ end }}
+    {{ if .Site.Params.showReadingTime }}<span>⏱ {{ .ReadingTime }} min</span>{{ end }}
+  </div>
+
+  <!-- tags -->
+  {{ with .Params.tags }}
+  <div class="tags-row">
+    {{ range . }}<a href="{{ "/tags/" | relURL }}{{ . | urlize }}" class="tag">#{{ . }}</a>{{ end }}
+  </div>
+  {{ end }}
+
+  <!-- machine info box -->
+  {{ with .Params.machine_info }}
+  <div class="machine-info">
+    <table>
+      <tbody>
+        {{ range $k, $v := . }}
+        <tr>
+          <td>{{ $k }}</td>
+          <td>{{ $v }}</td>
+        </tr>
+        {{ end }}
+      </tbody>
+    </table>
+  </div>
+  {{ end }}
+
+  <!-- content -->
+  <div class="post-content">
+    {{ .Content }}
+  </div>
+
+  <!-- prev / next nav -->
+  <nav class="post-nav">
+    {{ with .PrevInSection }}
+    <a href="{{ .Permalink }}" class="btn btn-s" style="font-size:.72rem">← {{ .Title }}</a>
+    {{ end }}
+    <a href="{{ .CurrentSection.Permalink }}" class="btn btn-s" style="font-size:.72rem">↑ {{ .CurrentSection.Title }}</a>
+    {{ with .NextInSection }}
+    <a href="{{ .Permalink }}" class="btn btn-s" style="font-size:.72rem">{{ .Title }} →</a>
+    {{ end }}
+  </nav>
+
+</div>
 {{ end }}

@@ -1,72 +1,60 @@
 {{ define "main" }}
 {{ $sectionColor := "var(--pink)" }}
-{{ $sectionIcon := "//" }}
-{{ if eq .Section "challenges" }}{{ $sectionColor = "var(--cyan)" }}{{ $sectionIcon = "⚡" }}{{ end }}
-{{ if eq .Section "labs" }}{{ $sectionColor = "var(--green)" }}{{ $sectionIcon = "🖥" }}{{ end }}
-{{ if eq .Section "sherlocks" }}{{ $sectionColor = "#b300ff" }}{{ $sectionIcon = "🔍" }}{{ end }}
+{{ $sectionIcon  := "//" }}
+{{ if eq .Section "challenges" }}{{ $sectionColor = "var(--cyan)"   }}{{ $sectionIcon = "⚡" }}{{ end }}
+{{ if eq .Section "labs"       }}{{ $sectionColor = "var(--green)"  }}{{ $sectionIcon = "🖥" }}{{ end }}
+{{ if eq .Section "sherlocks"  }}{{ $sectionColor = "var(--purple)" }}{{ $sectionIcon = "🔍" }}{{ end }}
 
-<main class="site-main">
+<div class="content-area">
 
-  <div class="post-header">
-    <div class="post-category" style="color:{{ $sectionColor }}">{{ $sectionIcon }} {{ .Section | upper }}</div>
-    <h1 class="post-title" style="color:{{ $sectionColor }};text-shadow:0 0 20px {{ $sectionColor }}60">
+  <div class="section-intro fade-in">
+    <div class="post-eyebrow" style="--c:{{ $sectionColor }}">{{ $sectionIcon }} {{ .Section }}</div>
+    <h1 class="section-title" style="color:{{ $sectionColor }};text-shadow:0 0 20px color-mix(in srgb, {{ $sectionColor }} 40%, transparent)">
       {{ .Title }}
     </h1>
-    <p style="font-family:var(--font-mono);color:var(--text-dim);font-size:0.85rem">
-      {{ len .Pages }} writeup{{ if gt (len .Pages) 1 }}s{{ end }} encontrado{{ if gt (len .Pages) 1 }}s{{ end }}
-    </p>
+    <p class="section-count">{{ len .Pages }} writeup{{ if gt (len .Pages) 1 }}s{{ end }}</p>
   </div>
 
-  <!-- Filtros de dificuldade -->
-  <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:2rem">
-    <button class="filter-btn active" onclick="filterDiff(this,'all')" style="--fc:{{ $sectionColor }}">Todos</button>
-    <button class="filter-btn" onclick="filterDiff(this,'Easy')" style="--fc:#00ff99">Easy</button>
-    <button class="filter-btn" onclick="filterDiff(this,'Medium')" style="--fc:#febc2e">Medium</button>
-    <button class="filter-btn" onclick="filterDiff(this,'Hard')" style="--fc:#ff2d78">Hard</button>
-    <button class="filter-btn" onclick="filterDiff(this,'Insane')" style="--fc:#b300ff">Insane</button>
+  <!-- difficulty filter -->
+  <div class="filter-row">
+    <button class="f-btn on" style="--fc:{{ $sectionColor }}" onclick="filterDiff(this,'all')">Todos</button>
+    <button class="f-btn" style="--fc:var(--green)"  onclick="filterDiff(this,'Easy')">Easy</button>
+    <button class="f-btn" style="--fc:var(--yellow)" onclick="filterDiff(this,'Medium')">Medium</button>
+    <button class="f-btn" style="--fc:var(--pink)"   onclick="filterDiff(this,'Hard')">Hard</button>
+    <button class="f-btn" style="--fc:var(--purple)" onclick="filterDiff(this,'Insane')">Insane</button>
   </div>
 
-  <style>
-    .filter-btn {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      padding: 0.4rem 1rem;
-      border: 1px solid var(--fc, var(--border));
-      color: var(--fc, var(--text-dim));
-      background: transparent;
-      cursor: pointer;
-      letter-spacing: 1px;
-      transition: all 0.2s;
-    }
-    .filter-btn:hover, .filter-btn.active {
-      background: var(--fc, var(--border));
-      color: #000;
-      box-shadow: 0 0 8px var(--fc, transparent);
-    }
-  </style>
-
-  <div class="post-grid" id="cards-container">
+  <div class="wr-list" id="wr-list">
     {{ range sort .Pages "Date" "desc" }}
-    <div class="card-wrapper" data-diff="{{ .Params.difficulty | default "Unknown" }}">
-      {{ partial "card.html" . }}
-    </div>
+    {{ $c := "var(--pink)" }}
+    {{ if eq .Type "challenges" }}{{ $c = "var(--cyan)"   }}{{ end }}
+    {{ if eq .Type "labs"       }}{{ $c = "var(--green)"  }}{{ end }}
+    {{ if eq .Type "sherlocks"  }}{{ $c = "var(--purple)" }}{{ end }}
+
+    <a href="{{ .Permalink }}"
+       class="wr-row fade-in"
+       style="--c:{{ $c }}"
+       data-diff="{{ .Params.difficulty | default "Unknown" }}">
+      <span class="wr-title">{{ .Title }}</span>
+      {{ with .Params.difficulty }}
+      <span class="wr-diff" style="color:{{ if eq . "Easy" }}var(--green){{ else if eq . "Medium" }}var(--yellow){{ else if eq . "Hard" }}var(--pink){{ else }}var(--purple){{ end }}">
+        {{ . }}
+      </span>
+      {{ end }}
+      <span class="wr-date">{{ .Date.Format "02 Jan 2006" }}</span>
+      {{ if .Params.pwned }}<span class="wr-pwned">✓</span>{{ end }}
+    </a>
     {{ end }}
   </div>
 
-  {{ template "_internal/pagination.html" . }}
-
-</main>
+</div>
 
 <script>
 function filterDiff(btn, diff) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.card-wrapper').forEach(card => {
-    if (diff === 'all' || card.dataset.diff === diff) {
-      card.style.display = '';
-    } else {
-      card.style.display = 'none';
-    }
+  document.querySelectorAll('.filter-row .f-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('#wr-list .wr-row').forEach(row => {
+    row.style.display = (diff === 'all' || row.dataset.diff === diff) ? '' : 'none';
   });
 }
 </script>

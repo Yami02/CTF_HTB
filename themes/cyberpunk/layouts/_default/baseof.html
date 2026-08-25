@@ -2,13 +2,18 @@
 <html lang="{{ .Site.LanguageCode }}">
 <head>
   {{ partial "head.html" . }}
-  {{ block "extra-head" . }}{{ end }}
 </head>
 <body>
   {{ partial "header.html" . }}
 
-  {{ block "main" . }}{{ end }}
+  <div class="app-layout">
+    {{ partial "sidebar.html" . }}
 
-  {{ partial "footer.html" . }}
+    <div class="main-content">
+      {{ block "main" . }}{{ end }}
+
+      {{ partial "footer.html" . }}
+    </div>
+  </div>
 </body>
 </html>
