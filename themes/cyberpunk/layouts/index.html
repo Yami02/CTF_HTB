@@ -41,15 +41,15 @@
 
   <!-- STATS -->
   <div class="stats-row fade-in" style="animation-delay:.2s">
-    <a href="{{ "/challenges/" | relURL }}" class="stat-card" style="--sc:var(--cyan)">
+    <a href="{{ (.Site.GetPage "challenges").RelPermalink }}" class="stat-card" style="--sc:var(--cyan)">
       <span class="stat-num">{{ len $challenges }}</span>
       <span class="stat-label">⚡ Challenges</span>
     </a>
-    <a href="{{ "/labs/" | relURL }}" class="stat-card" style="--sc:var(--green)">
+    <a href="{{ (.Site.GetPage "labs").RelPermalink }}" class="stat-card" style="--sc:var(--green)">
       <span class="stat-num">{{ len $labs }}</span>
       <span class="stat-label">🖥 Labs</span>
     </a>
-    <a href="{{ "/sherlocks/" | relURL }}" class="stat-card" style="--sc:var(--purple)">
+    <a href="{{ (.Site.GetPage "sherlocks").RelPermalink }}" class="stat-card" style="--sc:var(--purple)">
       <span class="stat-num">{{ len $sherlocks }}</span>
       <span class="stat-label">🔍 Sherlocks</span>
     </a>

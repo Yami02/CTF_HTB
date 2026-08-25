@@ -9,12 +9,12 @@
   <p style="font-family:var(--mono);color:var(--green);font-size:.8rem;margin-bottom:2rem">
     redirecionando para ~ em <span id="cd-count">5</span>s<span class="blink">_</span>
   </p>
-  <a href="{{ "/" | relURL }}" class="btn btn-p" id="cd-home">[ cd ~ agora ]</a>
+  <a href="{{ .Site.Home.RelPermalink }}" class="btn btn-p" id="cd-home">[ cd ~ agora ]</a>
 </div>
 
 <script>
 (function () {
-  var home = {{ "/" | relURL }};
+  var home = {{ .Site.Home.RelPermalink | jsonify }};
   var n = 5;
   var el = document.getElementById('cd-count');
   var timer = setInterval(function () {

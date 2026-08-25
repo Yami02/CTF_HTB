@@ -5,7 +5,7 @@
 
 {{/* No-JS fallback: also hard-redirect 404 → home after 5s via meta refresh */}}
 {{ if eq .Kind "404" }}
-<meta http-equiv="refresh" content="5;url={{ "/" | relURL }}">
+<meta http-equiv="refresh" content="5;url={{ .Site.Home.RelPermalink }}">
 {{ end }}
 
 <!-- Fonts -->
