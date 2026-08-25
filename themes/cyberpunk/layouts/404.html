@@ -3,9 +3,28 @@
   <div style="font-family:var(--head);font-size:clamp(5rem,20vw,10rem);font-weight:900;color:var(--pink);text-shadow:var(--gp);line-height:1">
     404
   </div>
-  <p style="font-family:var(--mono);color:var(--dim);margin:1.25rem 0 2rem">
+  <p style="font-family:var(--mono);color:var(--dim);margin:1.25rem 0 .5rem">
     // bash: {{ .RelPermalink }}: No such file or directory
   </p>
-  <a href="{{ "/" | relURL }}" class="btn btn-p">[ cd ~ ]</a>
+  <p style="font-family:var(--mono);color:var(--green);font-size:.8rem;margin-bottom:2rem">
+    redirecionando para ~ em <span id="cd-count">5</span>s<span class="blink">_</span>
+  </p>
+  <a href="{{ "/" | relURL }}" class="btn btn-p" id="cd-home">[ cd ~ agora ]</a>
 </div>
+
+<script>
+(function () {
+  var home = {{ "/" | relURL }};
+  var n = 5;
+  var el = document.getElementById('cd-count');
+  var timer = setInterval(function () {
+    n -= 1;
+    if (el) el.textContent = n;
+    if (n <= 0) {
+      clearInterval(timer);
+      window.location.href = home;
+    }
+  }, 1000);
+})();
+</script>
 {{ end }}
