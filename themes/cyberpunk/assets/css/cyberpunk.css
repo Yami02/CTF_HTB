@@ -627,6 +627,13 @@ a.stat-card:hover {
   flex-wrap: wrap;
   align-items: center;
 }
+.rc-date { color: var(--dim); }
+.rc-diff-badge {
+  border: 1px solid currentColor;
+  padding: 0 6px;
+  font-size: .68rem;
+  letter-spacing: 1px;
+}
 .rc-arrow {
   font-family: var(--mono);
   font-size: .75rem;

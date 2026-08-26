@@ -2,7 +2,7 @@ baseURL = 'https://yami02.github.io/CTF_HTB/'
 languageCode = 'pt-br'
 title = '0xYami02'
 theme = 'cyberpunk'
-ignoreFiles = ['^README\\.md$']
+ignoreFiles = ['^README\.md$']
 paginate = 10
 
 [params]
@@ -12,11 +12,11 @@ paginate = 10
   tagline = "nihil.exec();"
   github = "https://github.com/Yami02"
   htb_profile = "https://www.hackthebox.com"
+  linkedin = "https://www.linkedin.com/in/adalberto-nobre-neto/"
   showReadingTime = true
 
 [taxonomies]
   tag = "tags"
-  difficulty = "difficulty"
 
 [markup]
   [markup.highlight]

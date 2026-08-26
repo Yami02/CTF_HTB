@@ -87,7 +87,7 @@
         {{ if eq .Type "labs"       }}{{ $tc = "var(--green)"  }}{{ end }}
         {{ if eq .Type "sherlocks"  }}{{ $tc = "var(--purple)" }}{{ end }}
         <a class="tl-entry" href="{{ .Permalink }}">
-          <span class="tl-node" style="background:{{ $tc }};color:{{ $tc }}"></span>
+          <span class="tl-node" style="background:{{ $tc | safeCSS }};color:{{ $tc | safeCSS }}"></span>
           <div class="tl-info">
             <div class="tl-name">{{ .Title }}</div>
             <div class="tl-meta">{{ .Date.Format "02 Jan 06" }} · {{ .Type }}</div>

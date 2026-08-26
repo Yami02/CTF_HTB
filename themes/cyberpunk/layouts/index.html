@@ -71,7 +71,7 @@
       {{ if eq .Type "challenges" }}{{ $c = "var(--cyan)"   }}{{ end }}
       {{ if eq .Type "labs"       }}{{ $c = "var(--green)"  }}{{ end }}
       {{ if eq .Type "sherlocks"  }}{{ $c = "var(--purple)" }}{{ end }}
-      <a href="{{ .Permalink }}" class="rc-card fade-in" style="--c:{{ $c }}">
+      <a href="{{ .Permalink }}" class="rc-card fade-in" style="--c:{{ $c | safeCSS }}">
         <span class="rc-type-dot"></span>
         <div class="rc-info">
           <div class="rc-name">{{ .Title }}</div>
@@ -79,7 +79,11 @@
             <span class="rc-date">{{ .Date.Format "02 Jan 2006" }}</span>
             <span>{{ .Type }}</span>
             {{ with .Params.difficulty }}
-            <span class="rc-diff-badge" style="color:{{ if eq . "Easy" }}var(--green){{ else if eq . "Medium" }}var(--yellow){{ else if eq . "Hard" }}var(--pink){{ else }}var(--purple){{ end }}">{{ . }}</span>
+            {{ $diffColor := "var(--purple)" }}
+            {{ if eq . "Easy"   }}{{ $diffColor = "var(--green)"  }}{{ end }}
+            {{ if eq . "Medium" }}{{ $diffColor = "var(--yellow)" }}{{ end }}
+            {{ if eq . "Hard"   }}{{ $diffColor = "var(--pink)"   }}{{ end }}
+            <span class="rc-diff-badge" style="color:{{ $diffColor | safeCSS }}">{{ . }}</span>
             {{ end }}
             {{ if .Params.pwned }}<span style="color:var(--green)">✓ pwned</span>{{ end }}
           </div>

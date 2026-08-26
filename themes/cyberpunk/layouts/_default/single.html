@@ -4,13 +4,17 @@
 {{ if eq .Type "labs"       }}{{ $c = "var(--green)"  }}{{ end }}
 {{ if eq .Type "sherlocks"  }}{{ $c = "var(--purple)" }}{{ end }}
 
-<div class="content-area" style="--c:{{ $c }}">
+<div class="content-area" style="--c:{{ $c | safeCSS }}">
 
   <!-- eyebrow -->
   <div class="post-eyebrow fade-in">
     {{ .Type | upper }}
     {{ with .Params.difficulty }}
-    <span class="diff-inline" style="color:{{ if eq . "Easy" }}var(--green){{ else if eq . "Medium" }}var(--yellow){{ else if eq . "Hard" }}var(--pink){{ else }}var(--purple){{ end }}">{{ . }}</span>
+    {{ $diffColor := "var(--purple)" }}
+    {{ if eq . "Easy"   }}{{ $diffColor = "var(--green)"  }}{{ end }}
+    {{ if eq . "Medium" }}{{ $diffColor = "var(--yellow)" }}{{ end }}
+    {{ if eq . "Hard"   }}{{ $diffColor = "var(--pink)"   }}{{ end }}
+    <span class="diff-inline" style="color:{{ $diffColor | safeCSS }}">{{ . }}</span>
     {{ end }}
     {{ if .Params.pwned }}<span class="pwned-badge">✓ pwned</span>{{ end }}
   </div>

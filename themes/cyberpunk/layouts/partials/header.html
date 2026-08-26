@@ -19,7 +19,8 @@
       <span>~</span>
       <span class="sep">/</span>
       {{ if .Section }}
-      <a href="{{ .CurrentSection.Permalink }}" style="color:var(--dim);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--dim)'">
+      {{ $sectionRoot := .Site.GetPage .Section }}
+      <a href="{{ if $sectionRoot }}{{ $sectionRoot.RelPermalink }}{{ else }}{{ .CurrentSection.RelPermalink }}{{ end }}" style="color:var(--dim);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--dim)'">
         {{ .Section }}
       </a>
       {{ end }}
@@ -37,5 +38,8 @@
   <div class="header-actions">
     <a href="{{ .Site.Params.github }}" target="_blank" rel="noopener">gh</a>
     <a href="{{ .Site.Params.htb_profile }}" target="_blank" rel="noopener">htb</a>
+    {{ with .Site.Params.linkedin }}
+    <a href="{{ . }}" target="_blank" rel="noopener">in</a>
+    {{ end }}
   </div>
 </header>
