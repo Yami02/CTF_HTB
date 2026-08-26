@@ -4,12 +4,13 @@
 {{ if eq .Section "challenges" }}{{ $sectionColor = "var(--cyan)"   }}{{ $sectionIcon = "⚡" }}{{ end }}
 {{ if eq .Section "labs"       }}{{ $sectionColor = "var(--green)"  }}{{ $sectionIcon = "🖥" }}{{ end }}
 {{ if eq .Section "sherlocks"  }}{{ $sectionColor = "var(--purple)" }}{{ $sectionIcon = "🔍" }}{{ end }}
+{{ if eq .Section "tags"       }}{{ $sectionColor = "var(--green)"  }}{{ $sectionIcon = "#"  }}{{ end }}
 
 <div class="content-area">
 
   <div class="section-intro fade-in">
-    <div class="post-eyebrow" style="--c:{{ $sectionColor }}">{{ $sectionIcon }} {{ .Section }}</div>
-    <h1 class="section-title" style="color:{{ $sectionColor }};text-shadow:0 0 20px color-mix(in srgb, {{ $sectionColor }} 40%, transparent)">
+    <div class="post-eyebrow" style="--c:{{ $sectionColor | safeCSS }}">{{ $sectionIcon }} {{ .Section }}</div>
+    <h1 class="section-title" style="color:{{ $sectionColor | safeCSS }};text-shadow:0 0 20px color-mix(in srgb, {{ $sectionColor | safeCSS }} 40%, transparent)">
       {{ .Title }}
     </h1>
     <p class="section-count">{{ len .Pages }} writeup{{ if gt (len .Pages) 1 }}s{{ end }}</p>
@@ -17,7 +18,7 @@
 
   <!-- difficulty filter -->
   <div class="filter-row">
-    <button class="f-btn on" style="--fc:{{ $sectionColor }}" onclick="filterDiff(this,'all')">Todos</button>
+    <button class="f-btn on" style="--fc:{{ $sectionColor | safeCSS }}" onclick="filterDiff(this,'all')">Todos</button>
     <button class="f-btn" style="--fc:var(--green)"  onclick="filterDiff(this,'Easy')">Easy</button>
     <button class="f-btn" style="--fc:var(--yellow)" onclick="filterDiff(this,'Medium')">Medium</button>
     <button class="f-btn" style="--fc:var(--pink)"   onclick="filterDiff(this,'Hard')">Hard</button>
@@ -33,11 +34,15 @@
 
     <a href="{{ .Permalink }}"
        class="wr-row fade-in"
-       style="--c:{{ $c }}"
+       style="--c:{{ $c | safeCSS }}"
        data-diff="{{ .Params.difficulty | default "Unknown" }}">
       <span class="wr-title">{{ .Title }}</span>
       {{ with .Params.difficulty }}
-      <span class="wr-diff" style="color:{{ if eq . "Easy" }}var(--green){{ else if eq . "Medium" }}var(--yellow){{ else if eq . "Hard" }}var(--pink){{ else }}var(--purple){{ end }}">
+      {{ $diffColor := "var(--purple)" }}
+      {{ if eq . "Easy"   }}{{ $diffColor = "var(--green)"  }}{{ end }}
+      {{ if eq . "Medium" }}{{ $diffColor = "var(--yellow)" }}{{ end }}
+      {{ if eq . "Hard"   }}{{ $diffColor = "var(--pink)"   }}{{ end }}
+      <span class="wr-diff" style="color:{{ $diffColor | safeCSS }}">
         {{ . }}
       </span>
       {{ end }}

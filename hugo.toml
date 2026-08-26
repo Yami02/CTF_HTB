@@ -2,7 +2,7 @@ baseURL = 'https://yami02.github.io/CTF_HTB/'
 languageCode = 'pt-br'
 title = '0xYami02'
 theme = 'cyberpunk'
-ignoreFiles = ['^README\\.md$']
+ignoreFiles = ['^README\.md$']
 paginate = 10
 
 [params]
@@ -17,7 +17,6 @@ paginate = 10
 
 [taxonomies]
   tag = "tags"
-  difficulty = "difficulty"
 
 [markup]
   [markup.highlight]

@@ -19,7 +19,8 @@
       <span>~</span>
       <span class="sep">/</span>
       {{ if .Section }}
-      <a href="{{ .CurrentSection.Permalink }}" style="color:var(--dim);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--dim)'">
+      {{ $sectionRoot := .Site.GetPage .Section }}
+      <a href="{{ if $sectionRoot }}{{ $sectionRoot.RelPermalink }}{{ else }}{{ .CurrentSection.RelPermalink }}{{ end }}" style="color:var(--dim);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--dim)'">
         {{ .Section }}
       </a>
       {{ end }}
