@@ -6,14 +6,10 @@
 <body>
   {{ partial "header.html" . }}
 
-  <div class="app-layout">
-    {{ partial "sidebar.html" . }}
+  <main class="main-content">
+    {{ block "main" . }}{{ end }}
+  </main>
 
-    <div class="main-content">
-      {{ block "main" . }}{{ end }}
-
-      {{ partial "footer.html" . }}
-    </div>
-  </div>
+  {{ partial "footer.html" . }}
 </body>
 </html>

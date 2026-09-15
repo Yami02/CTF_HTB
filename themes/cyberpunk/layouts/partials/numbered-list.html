@@ -1,0 +1,60 @@
+{{/*
+  Numbered writeup list, rulio.wtf style.
+  Params:
+    pages      - slice of pages to render (already sorted/limited by caller)
+    withSearch - bool, renders a search box that filters by title+tags+body
+    noun       - word used in the footer count, e.g. "ctf"
+*/}}
+{{ $pages := .pages }}
+{{ $noun := .noun | default "item" }}
+
+{{ if .withSearch }}
+<input type="search" class="search-input" id="ctf-search" placeholder="buscar por título, tag ou conteúdo..." autocomplete="off">
+{{ end }}
+
+<div class="num-list" id="num-list">
+  {{ range $i, $p := $pages }}
+  {{ $c := "var(--pink)" }}
+  {{ if eq $p.Type "challenges" }}{{ $c = "var(--cyan)"   }}{{ end }}
+  {{ if eq $p.Type "labs"       }}{{ $c = "var(--green)"  }}{{ end }}
+  {{ if eq $p.Type "sherlocks"  }}{{ $c = "var(--purple)" }}{{ end }}
+  <a href="{{ $p.Permalink }}"
+     class="num-row fade-in"
+     style="--c:{{ $c | safeCSS }}"
+     {{ if $.withSearch }}data-search="{{ lower (print $p.Title " " (delimit ($p.Params.tags | default slice) " ") " " $p.Plain) }}"{{ end }}>
+    <span class="num-idx">{{ printf "%02d" (add $i 1) }}</span>
+    <div class="num-body">
+      <div class="num-title">{{ $p.Title }}</div>
+      {{ with $p.Params.summary }}<p class="num-desc">{{ . }}</p>{{ end }}
+      <div class="num-meta">
+        <span class="num-date">{{ $p.Date.Format "Jan 2006" | upper }}</span>
+        <span style="color:{{ $c | safeCSS }}">{{ $p.Type }}</span>
+        {{ with $p.Params.difficulty }}<span>{{ . }}</span>{{ end }}
+        {{ if $p.Params.pwned }}<span style="color:var(--green)">✓ pwned</span>{{ end }}
+      </div>
+    </div>
+  </a>
+  {{ end }}
+</div>
+
+<p class="list-count" id="list-count">{{ len $pages }} {{ $noun }}{{ if ne (len $pages) 1 }}s{{ end }} indexed</p>
+
+{{ if .withSearch }}
+<script>
+(function () {
+  var input = document.getElementById('ctf-search');
+  var rows  = document.querySelectorAll('#num-list .num-row');
+  var count = document.getElementById('list-count');
+  input.addEventListener('input', function () {
+    var q = input.value.trim().toLowerCase();
+    var shown = 0;
+    rows.forEach(function (row) {
+      var match = !q || row.dataset.search.includes(q);
+      row.hidden = !match;
+      if (match) shown++;
+    });
+    count.textContent = shown + ' {{ $noun }}' + (shown === 1 ? '' : 's') + ' indexed';
+  });
+})();
+</script>
+{{ end }}

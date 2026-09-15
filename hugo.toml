@@ -11,6 +11,7 @@ paginate = 10
   handle = "0xNihil"
   tagline = "nihil.exec();"
   github = "https://github.com/Yami02"
+  githubUser = "Yami02"
   htb_profile = "https://www.hackthebox.com"
   linkedin = "https://www.linkedin.com/in/adalberto-nobre-neto/"
   showReadingTime = true
@@ -28,3 +29,7 @@ paginate = 10
   home = ["HTML", "RSS"]
   section = ["HTML"]
   page = ["HTML"]
+
+[security]
+  [security.http]
+    urls = ['^https://api\.github\.com/.*']
