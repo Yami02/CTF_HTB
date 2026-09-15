@@ -1,0 +1,41 @@
+{{ define "main" }}
+{{ $ghUser := .Site.Params.githubUser | default "Yami02" }}
+{{ $repos := slice }}
+{{ with resources.GetRemote (printf "https://api.github.com/users/%s/repos?sort=pushed&per_page=100" $ghUser) }}
+  {{ with .Err }}
+    {{ warnf "projects: falha ao buscar repos do GitHub: %s" . }}
+  {{ else }}
+    {{ $all := .Content | transform.Unmarshal }}
+    {{ range $all }}
+      {{ if not .fork }}{{ $repos = $repos | append . }}{{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ $repos = first 12 (sort $repos "pushed_at" "desc") }}
+
+<div class="content-area">
+  <div class="section-intro fade-in">
+    <h1 class="section-title">Projects</h1>
+    <p class="section-sub">Repositórios públicos, direto do <a href="https://github.com/{{ $ghUser }}" target="_blank" rel="noopener">github.com/{{ $ghUser }}</a>.</p>
+  </div>
+
+  <div class="num-list">
+    {{ range $i, $r := $repos }}
+    <a href="{{ $r.html_url }}" target="_blank" rel="noopener" class="num-row fade-in">
+      <span class="num-idx">{{ printf "%02d" (add $i 1) }}</span>
+      <div class="num-body">
+        <div class="num-title">{{ $r.name }}</div>
+        {{ with $r.description }}<p class="num-desc">{{ . }}</p>{{ end }}
+        <div class="num-meta">
+          <span class="num-date">{{ (time.AsTime $r.pushed_at).Format "Jan 2006" | upper }}</span>
+          {{ with $r.language }}<span>{{ . }}</span>{{ end }}
+          <span>★ {{ $r.stargazers_count }}</span>
+        </div>
+      </div>
+    </a>
+    {{ end }}
+  </div>
+
+  <p class="list-count">{{ len $repos }} project{{ if ne (len $repos) 1 }}s{{ end }} indexed</p>
+</div>
+{{ end }}

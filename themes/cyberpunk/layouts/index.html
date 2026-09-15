@@ -1,99 +1,18 @@
 {{ define "main" }}
-{{ $recent     := first 3 (sort .Site.RegularPages "Date" "desc") }}
-{{ $challenges := where .Site.RegularPages "Type" "challenges" }}
-{{ $labs       := where .Site.RegularPages "Type" "labs" }}
-{{ $sherlocks  := where .Site.RegularPages "Type" "sherlocks" }}
-{{ $pwned      := where .Site.RegularPages ".Params.pwned" true }}
+{{ $recent := first 5 (sort (where .Site.RegularPages "Type" "in" (slice "challenges" "labs" "sherlocks")) "Date" "desc") }}
+
+<div class="hero fade-in">
+  <h1 class="hero-title" data-text="{{ .Site.Params.handle }}">{{ .Site.Params.handle }}</h1>
+  <p class="hero-sub">{{ .Site.Params.tagline }}</p>
+</div>
 
 <div class="content-area">
-
-  <!-- HERO -->
-  <div class="home-hero fade-in">
-    <p class="home-greeting">&gt; whoami <span class="blink">_</span></p>
-    <h1 class="home-title">
-      <span class="pk">0xYami02</span>
-      <span class="sep">//</span>
-      <span class="gn">0xNihil</span>
-    </h1>
-    <p class="home-sub">{{ .Site.Params.tagline }}</p>
-  </div>
-
-  <!-- TERMINAL -->
-  <div class="terminal fade-in" style="animation-delay:.1s">
-    <div class="tbar">
-      <span class="tdot r"></span><span class="tdot y"></span><span class="tdot g"></span>
-      <span class="ttitle">bash — 0xNihil@htb</span>
-    </div>
-    <div class="tbody">
-      <div><span class="pr">nihil@htb:~$</span> <span class="cm">cat /etc/profile</span></div>
-      <div class="ot">CTF player · HTB enthusiast · 0xNihil</div>
-      <div style="margin-top:.5rem"><span class="pr">nihil@htb:~$</span> <span class="cm">ls categories/</span></div>
-      <div class="ot">
-        <span style="color:var(--cyan)">challenges/</span>&nbsp;&nbsp;
-        <span style="color:var(--green)">labs/</span>&nbsp;&nbsp;
-        <span style="color:var(--purple)">sherlocks/</span>
-      </div>
-      <div style="margin-top:.5rem"><span class="pr">nihil@htb:~$</span> <span class="cm">cat flag.txt</span></div>
-      <div class="ot"><span class="fl">HTB{h4ck_th3_pl4n3t_0n3_fl4g_4t_4_t1m3}</span></div>
-      <div style="margin-top:.5rem"><span class="pr">nihil@htb:~$</span> <span class="cur"></span></div>
-    </div>
-  </div>
-
-  <!-- STATS -->
-  <div class="stats-row fade-in" style="animation-delay:.2s">
-    <a href="{{ (.Site.GetPage "challenges").RelPermalink }}" class="stat-card" style="--sc:var(--cyan)">
-      <span class="stat-num">{{ len $challenges }}</span>
-      <span class="stat-label">⚡ Challenges</span>
-    </a>
-    <a href="{{ (.Site.GetPage "labs").RelPermalink }}" class="stat-card" style="--sc:var(--green)">
-      <span class="stat-num">{{ len $labs }}</span>
-      <span class="stat-label">🖥 Labs</span>
-    </a>
-    <a href="{{ (.Site.GetPage "sherlocks").RelPermalink }}" class="stat-card" style="--sc:var(--purple)">
-      <span class="stat-num">{{ len $sherlocks }}</span>
-      <span class="stat-label">🔍 Sherlocks</span>
-    </a>
-    <div class="stat-card" style="--sc:var(--pink)">
-      <span class="stat-num">{{ len $pwned }}</span>
-      <span class="stat-label">✓ Pwned</span>
-    </div>
-  </div>
-
-  <!-- RECENT 3 -->
   {{ if $recent }}
-  <div style="margin-top:2.5rem" class="fade-in" style="animation-delay:.3s">
-    <div class="sec-hdr" style="color:var(--green)">
-      <h2>// Últimas atualizações</h2>
-    </div>
-    <div class="recent-list">
-      {{ range $recent }}
-      {{ $c := "var(--pink)" }}
-      {{ if eq .Type "challenges" }}{{ $c = "var(--cyan)"   }}{{ end }}
-      {{ if eq .Type "labs"       }}{{ $c = "var(--green)"  }}{{ end }}
-      {{ if eq .Type "sherlocks"  }}{{ $c = "var(--purple)" }}{{ end }}
-      <a href="{{ .Permalink }}" class="rc-card fade-in" style="--c:{{ $c | safeCSS }}">
-        <span class="rc-type-dot"></span>
-        <div class="rc-info">
-          <div class="rc-name">{{ .Title }}</div>
-          <div class="rc-meta">
-            <span class="rc-date">{{ .Date.Format "02 Jan 2006" }}</span>
-            <span>{{ .Type }}</span>
-            {{ with .Params.difficulty }}
-            {{ $diffColor := "var(--purple)" }}
-            {{ if eq . "Easy"   }}{{ $diffColor = "var(--green)"  }}{{ end }}
-            {{ if eq . "Medium" }}{{ $diffColor = "var(--yellow)" }}{{ end }}
-            {{ if eq . "Hard"   }}{{ $diffColor = "var(--pink)"   }}{{ end }}
-            <span class="rc-diff-badge" style="color:{{ $diffColor | safeCSS }}">{{ . }}</span>
-            {{ end }}
-            {{ if .Params.pwned }}<span style="color:var(--green)">✓ pwned</span>{{ end }}
-          </div>
-        </div>
-        <span class="rc-arrow">→</span>
-      </a>
-      {{ end }}
-    </div>
+  <div class="sec-hdr">
+    <h2>// CTFs recentes</h2>
+    <a href="{{ "ctfs/" | relURL }}" class="see-all">ver todos →</a>
   </div>
+  {{ partial "numbered-list.html" (dict "pages" $recent "withSearch" false "noun" "ctf") }}
   {{ end }}
-
 </div>
 {{ end }}

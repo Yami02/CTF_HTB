@@ -1,0 +1,12 @@
+{{ define "main" }}
+{{ $ctfs := sort (where .Site.RegularPages "Type" "in" (slice "challenges" "labs" "sherlocks")) "Date" "desc" }}
+
+<div class="content-area">
+  <div class="section-intro fade-in">
+    <h1 class="section-title">CTFs</h1>
+    <p class="section-sub">HackTheBox challenges, labs e sherlocks — feitos recentemente.</p>
+  </div>
+
+  {{ partial "numbered-list.html" (dict "pages" $ctfs "withSearch" true "noun" "ctf") }}
+</div>
+{{ end }}
