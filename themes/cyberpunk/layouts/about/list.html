@@ -1,0 +1,34 @@
+{{ define "main" }}
+<div class="content-area">
+
+  <div class="section-intro fade-in">
+    <h1 class="section-title">About</h1>
+  </div>
+
+  <div class="post-content fade-in">
+    {{ .Content }}
+  </div>
+
+  {{ with .Site.Params.htb_profile }}
+  <div class="about-stats fade-in">
+    <div class="about-stats-label">// hackthebox</div>
+    <a href="{{ . }}" target="_blank" rel="noopener">
+      Lvl {{ $.Site.Params.htb_level }} · {{ $.Site.Params.htb_rank }} ({{ $.Site.Params.htb_rank_position }}) · {{ $.Site.Params.htb_xp }} XP →
+    </a>
+  </div>
+  {{ end }}
+
+  {{ $tags := first 15 .Site.Taxonomies.tags.ByCount }}
+  {{ if $tags }}
+  <div class="fade-in">
+    <div class="about-stats-label">// skills (das writeups)</div>
+    <div class="skill-cloud">
+      {{ range $tags }}
+      <span class="tag">#{{ .Name }} <span class="skill-count">{{ .Count }}</span></span>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+</div>
+{{ end }}

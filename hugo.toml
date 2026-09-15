@@ -12,7 +12,11 @@ paginate = 10
   tagline = "nihil.exec();"
   github = "https://github.com/Yami02"
   githubUser = "Yami02"
-  htb_profile = "https://www.hackthebox.com"
+  htb_profile = "https://profile.hackthebox.com/profile/019e7472-4239-7056-9beb-e12b09d6523e"
+  htb_level = "36"
+  htb_rank = "Skilled"
+  htb_rank_position = "416/843"
+  htb_xp = "16,940"
   linkedin = "https://www.linkedin.com/in/adalberto-nobre-neto/"
   showReadingTime = true
 
