@@ -18,6 +18,21 @@
   </div>
   {{ end }}
 
+  <div class="about-stats fade-in">
+    <div class="about-stats-label">// mais sobre mim</div>
+    <div class="about-links">
+      {{ with .Site.Params.linkedin }}
+      <a href="{{ . }}" target="_blank" rel="noopener">LinkedIn &rarr;</a>
+      {{ end }}
+      {{ with .Site.Params.cv }}
+      <a href="{{ . | relURL }}" target="_blank" rel="noopener">Curr&iacute;culo (PDF) &rarr;</a>
+      {{ end }}
+      {{ with .Site.Params.github }}
+      <a href="{{ . }}" target="_blank" rel="noopener">GitHub &rarr;</a>
+      {{ end }}
+    </div>
+  </div>
+
   {{ $tags := first 15 .Site.Taxonomies.tags.ByCount }}
   {{ if $tags }}
   <div class="fade-in">

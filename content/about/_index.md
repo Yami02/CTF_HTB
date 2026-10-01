@@ -1,17 +1,18 @@
 ---
 title: "About"
-description: "Sobre 0xYami02 — CTF player, HTB enthusiast."
+description: "Sobre 0xYami02 — CTF player, HackTheBox e DFIR."
 ---
 
-[PREENCHER] Uma bio curta (2-4 frases): quem você é, o que te interessa em
-segurança ofensiva/DFIR, e o que procura (vaga, freela, etc.).
+Sou **0xYami02** (`0xNihil`). Estudo segurança ofensiva e resposta a
+incidentes na prática: máquinas do HackTheBox, Sherlocks de forense e
+desafios de CTF.
 
-## Ferramentas & stack
+Este site é o caderno onde documento cada um deles — do enum ao root, com
+o raciocínio no meio. Escrevo em português porque é o que faltava quando
+eu comecei.
 
-[PREENCHER] Lista curta do que você domina de verdade — ex: Python, pwntools,
-Burp Suite, Ghidra, Wireshark, Linux, Active Directory, Nmap...
+## Stack
 
-## Certificações
-
-[PREENCHER] Se tiver (OSCP, eJPT, CRTP...). Sem certificação ainda? Pode
-apagar essa seção inteira, sem problema.
+- **Ofensiva** — Nmap, Burp Suite, Metasploit, msfvenom, pwntools, Python
+- **Forense** — Wireshark, tshark, logs do Linux (`auth.log`, `wtmp`, `btmp`)
+- **Terreno** — Linux, Windows/AD, SMB, web, protocolos de rede
