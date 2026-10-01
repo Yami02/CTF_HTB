@@ -1,0 +1,13 @@
+{{ define "main" }}
+<div class="content-area">
+  <div class="section-intro fade-in">
+    <h1 class="section-title">#{{ .Title }}</h1>
+    <p class="section-sub">
+      {{ len .Pages }} writeup{{ if ne (len .Pages) 1 }}s{{ end }} com essa tag ·
+      <a href="{{ "tags/" | relURL }}">ver todas as tags</a>
+    </p>
+  </div>
+
+  {{ partial "numbered-list.html" (dict "pages" (sort .Pages "Date" "desc") "withSearch" false "noun" "writeup") }}
+</div>
+{{ end }}

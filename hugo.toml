@@ -3,7 +3,9 @@ languageCode = 'pt-br'
 title = '0xYami02'
 theme = 'cyberpunk'
 ignoreFiles = ['^README\.md$']
-paginate = 10
+
+[pagination]
+  pagerSize = 10
 
 [params]
   description = "Writeups & CTF Hacking Notes — 0xNihil"

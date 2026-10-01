@@ -257,6 +257,7 @@ body::before {
   text-decoration: none; transition: all .18s;
 }
 .tag:hover { background: var(--green); color: #000; }
+.tag:hover .skill-count { color: #000; }
 
 .machine-info {
   background: var(--bg2); border: 1px solid var(--border); border-left: 2px solid var(--c, var(--green));
@@ -337,3 +338,152 @@ body::before {
 /* ── ANIMATIONS ───────────────────────────────────────────── */
 @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 .fade-in { animation: fadeUp .35s ease both; }
+
+/* ── GHOST / GIFS ─────────────────────────────────────────── */
+/* O gif dithered é o rosto do site: entra como fantasma atrás do
+   hero, como avatar no /about e como protagonista do 404.        */
+
+.hero { position: relative; overflow: hidden; }
+.hero > *:not(.hero-ghost) { position: relative; z-index: 1; }
+
+.hero-ghost {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: min(380px, 65vw);
+  aspect-ratio: 512 / 813;
+  transform: translate(-50%, -50%);
+  background: var(--gif, url('../img/nihil.gif')) center / contain no-repeat;
+  image-rendering: pixelated;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 0;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 45%, #000 30%, transparent 72%);
+  mask-image: radial-gradient(ellipse at 50% 45%, #000 30%, transparent 72%);
+  animation: ghost-breathe 9s ease-in-out infinite;
+}
+@keyframes ghost-breathe {
+  0%, 100% { opacity: .13; }
+  47%      { opacity: .32; }
+  50%      { opacity: .1; }
+  53%      { opacity: .3; }
+}
+
+/* ── ABOUT: card de perfil ────────────────────────────────── */
+.about-card {
+  display: flex;
+  gap: 1.75rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 1.25rem;
+  margin-bottom: 2.5rem;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--green);
+}
+
+.about-avatar { position: relative; flex-shrink: 0; width: 190px; max-width: 100%; }
+.about-avatar img {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  border: 1px solid var(--border);
+  filter: grayscale(1) contrast(1.15);
+  transition: filter .3s;
+}
+/* scanlines por cima do gif, pra casar com o resto do site */
+.about-avatar::after {
+  content: '';
+  position: absolute; inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.35) 2px, rgba(0,0,0,.35) 3px);
+}
+.about-avatar:hover img {
+  filter: contrast(1.4) sepia(1) hue-rotate(90deg) saturate(4);
+}
+.about-avatar figcaption {
+  margin-top: .5rem;
+  font-size: .68rem;
+  letter-spacing: 2px;
+  color: var(--dim);
+  text-transform: uppercase;
+}
+
+.about-id { flex: 1; min-width: 230px; font-size: .82rem; }
+.about-id > div {
+  display: flex;
+  gap: .75rem;
+  padding: .3rem 0;
+  border-bottom: 1px dashed rgba(255,255,255,.07);
+}
+.about-id > div:last-child { border-bottom: none; }
+.about-id dt {
+  flex-shrink: 0;
+  width: 5.5rem;
+  color: var(--dim);
+  text-transform: uppercase;
+  font-size: .68rem;
+  letter-spacing: 1.5px;
+  padding-top: .18rem;
+}
+.about-id dd { color: var(--text); }
+.about-id dd.hl { color: var(--green); }
+.caret { animation: caret-blink 1.1s steps(1) infinite; }
+@keyframes caret-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+/* ── 404 ──────────────────────────────────────────────────── */
+.err-page { text-align: center; padding: 3.5rem 1.5rem 5rem; }
+
+.err-ghost { position: relative; width: min(300px, 62vw); margin: 0 auto -2.5rem; }
+.err-ghost img {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  opacity: .55;
+  filter: grayscale(1) contrast(1.2);
+}
+/* cópia deslocada e rosa do mesmo gif = RGB split, igual ao hero */
+.err-ghost::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--gif) center / contain no-repeat;
+  image-rendering: pixelated;
+  mix-blend-mode: screen;
+  filter: sepia(1) hue-rotate(270deg) saturate(6);
+  opacity: .5;
+  pointer-events: none;
+  animation: err-split 3.4s infinite steps(1);
+}
+@keyframes err-split {
+  0%, 86%, 100% { transform: translate(0, 0); opacity: 0; }
+  88%  { transform: translate(-4px, 2px); opacity: .55; }
+  92%  { transform: translate(5px, -2px); opacity: .45; }
+  96%  { transform: translate(-2px, 0);   opacity: .5; }
+}
+
+.err-404 {
+  position: relative;
+  font-family: var(--head);
+  font-size: clamp(4.5rem, 18vw, 9rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+  text-shadow: 0 0 30px rgba(0,255,153,.25);
+}
+.err-cmd { color: var(--dim); margin: 1.25rem 0 .35rem; font-size: .85rem; }
+.err-tip { color: var(--dim); font-size: .78rem; font-style: italic; margin-bottom: .75rem; }
+.err-cd  { color: var(--green); font-size: .8rem; margin-bottom: 2rem; }
+
+@media (max-width: 560px) {
+  .about-card { gap: 1.25rem; }
+  .about-avatar { width: 140px; margin: 0 auto; }
+  .about-id dt { width: 4.5rem; }
+}
+
+/* quem pediu menos movimento, recebe menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  .hero-ghost, .err-ghost::after, .caret { animation: none; }
+  .hero-ghost { opacity: .2; }
+  .err-ghost::after { opacity: 0; }
+}

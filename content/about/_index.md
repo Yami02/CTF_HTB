@@ -3,13 +3,12 @@ title: "About"
 description: "Sobre 0xYami02 — CTF player, HackTheBox e DFIR."
 ---
 
-Sou **0xYami02** (`0xNihil`). Estudo segurança ofensiva e resposta a
-incidentes na prática: máquinas do HackTheBox, Sherlocks de forense e
-desafios de CTF.
+Quebro coisas pra entender como elas funcionam, e depois escrevo o caminho
+inteiro — do enum ao root. HackTheBox, Sherlocks de forense e desafios de CTF.
 
-Este site é o caderno onde documento cada um deles — do enum ao root, com
-o raciocínio no meio. Escrevo em português porque é o que faltava quando
-eu comecei.
+Não acredito em writeup que só cola o comando que deu certo. Aqui também tem
+o que falhou no meio, porque normalmente é ali que mora o aprendizado.
+Escrevo em português porque era o que faltava quando eu comecei.
 
 ## Stack
 

@@ -1,8 +1,25 @@
 {{ define "main" }}
+{{ $writeups := where .Site.RegularPages "Type" "in" (slice "challenges" "labs" "sherlocks") }}
 <div class="content-area">
 
   <div class="section-intro fade-in">
     <h1 class="section-title">About</h1>
+  </div>
+
+  <div class="about-card fade-in">
+    <figure class="about-avatar">
+      <img src="{{ "img/nihil-bust.gif" | relURL }}" alt="{{ .Site.Params.handle }}" loading="lazy" decoding="async">
+      <figcaption>// {{ .Site.Params.handle }}</figcaption>
+    </figure>
+
+    <dl class="about-id">
+      <div><dt>user</dt><dd>{{ .Site.Params.author }}</dd></div>
+      <div><dt>alias</dt><dd>{{ .Site.Params.handle }}</dd></div>
+      <div><dt>shell</dt><dd class="hl">{{ .Site.Params.tagline }}</dd></div>
+      <div><dt>htb</dt><dd>{{ .Site.Params.htb_rank }} · lvl {{ .Site.Params.htb_level }}</dd></div>
+      <div><dt>writeups</dt><dd>{{ len $writeups }} publicados</dd></div>
+      <div><dt>status</dt><dd class="hl">online<span class="caret">_</span></dd></div>
+    </dl>
   </div>
 
   <div class="post-content fade-in">
@@ -39,7 +56,7 @@
     <div class="about-stats-label">// skills (das writeups)</div>
     <div class="skill-cloud">
       {{ range $tags }}
-      <span class="tag">#{{ .Name }} <span class="skill-count">{{ .Count }}</span></span>
+      <a href="{{ .Page.RelPermalink }}" class="tag">#{{ .Name }} <span class="skill-count">{{ .Count }}</span></a>
       {{ end }}
     </div>
   </div>
