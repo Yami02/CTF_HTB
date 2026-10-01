@@ -1,0 +1,15 @@
+{{ define "main" }}
+{{ $terms := .Site.Taxonomies.tags.ByCount }}
+<div class="content-area">
+  <div class="section-intro fade-in">
+    <h1 class="section-title">Tags</h1>
+    <p class="section-sub">{{ len $terms }} tags no índice — clique pra filtrar os writeups.</p>
+  </div>
+
+  <div class="skill-cloud fade-in">
+    {{ range $terms }}
+    <a href="{{ .Page.RelPermalink }}" class="tag">#{{ .Name }} <span class="skill-count">{{ .Count }}</span></a>
+    {{ end }}
+  </div>
+</div>
+{{ end }}

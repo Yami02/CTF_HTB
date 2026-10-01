@@ -1,11 +1,13 @@
 {{ $onCtfs := or (eq .Section "ctfs") (in (slice "challenges" "labs" "sherlocks") .Section) }}
 {{ $onProjects := eq .Section "projects" }}
 {{ $onAbout := eq .Section "about" }}
+{{ $onTags := eq .Kind "taxonomy" }}{{ if eq .Kind "term" }}{{ $onTags = true }}{{ end }}
 <header class="site-header">
   <a href="{{ .Site.Home.RelPermalink }}" class="site-logo">{{ .Site.Params.author }}</a>
 
   <nav class="site-nav">
     <a href="{{ "ctfs/" | relURL }}" class="{{ if $onCtfs }}on{{ end }}">/ ctfs</a>
+    <a href="{{ "tags/" | relURL }}" class="{{ if $onTags }}on{{ end }}">/ tags</a>
     <a href="{{ "projects/" | relURL }}" class="{{ if $onProjects }}on{{ end }}">/ projects</a>
     <a href="{{ "about/" | relURL }}" class="{{ if $onAbout }}on{{ end }}">/ about</a>
   </nav>

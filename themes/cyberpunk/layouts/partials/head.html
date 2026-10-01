@@ -8,13 +8,23 @@
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ printf "%s // %s" .Title .Site.Title }}{{ end }}">
 <meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="{{ "img/og.png" | absURL }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="{{ .Site.Title }}">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ printf "%s // %s" .Title .Site.Title }}{{ end }}">
 <meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+<meta name="twitter:image" content="{{ "img/og.png" | absURL }}">
+<meta name="theme-color" content="#000000">
 
 {{/* No-JS fallback: also hard-redirect 404 → home after 5s via meta refresh */}}
 {{ if eq .Kind "404" }}
 <meta http-equiv="refresh" content="5;url={{ .Site.Home.RelPermalink }}">
+{{ end }}
+
+{{ with .OutputFormats.Get "rss" }}
+<link rel="alternate" type="application/rss+xml" href="{{ .Permalink }}" title="{{ $.Site.Title }}">
 {{ end }}
 
 <!-- Fonts -->
@@ -27,4 +37,4 @@
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" crossorigin="anonymous">
 
 <!-- Favicon -->
-<link rel="icon" type="image/svg+xml" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🔓</text></svg>'>
+<link rel="icon" type="image/svg+xml" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="%23000"/><text x="16" y="23" font-family="monospace" font-size="20" font-weight="bold" fill="%2300ff99" text-anchor="middle">0x</text></svg>'>

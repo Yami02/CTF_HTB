@@ -1,14 +1,16 @@
 {{ define "main" }}
-<div class="content-area" style="text-align:center;padding:5rem 2rem">
-  <div style="font-family:var(--head);font-size:clamp(5rem,20vw,10rem);font-weight:900;color:#fff;text-shadow:0 0 30px rgba(0,255,153,.25);line-height:1">
-    404
+<div class="content-area err-page">
+
+  <div class="err-ghost" style="--gif:url('{{ "img/nihil.gif" | relURL }}')">
+    <img src="{{ "img/nihil.gif" | relURL }}" alt="" aria-hidden="true" decoding="async">
   </div>
-  <p style="color:var(--dim);margin:1.25rem 0 .5rem">
-    // bash: {{ .RelPermalink }}: No such file or directory
-  </p>
-  <p style="color:var(--green);font-size:.8rem;margin-bottom:2rem">
-    redirecionando para ~ em <span id="cd-count">5</span>s_
-  </p>
+
+  <div class="err-404" data-text="404">404</div>
+
+  <p class="err-cmd">// bash: {{ .RelPermalink }}: No such file or directory</p>
+  <p class="err-tip">ele estava aqui. agora n&atilde;o est&aacute; mais.</p>
+  <p class="err-cd">redirecionando para ~ em <span id="cd-count">5</span>s_</p>
+
   <a href="{{ .Site.Home.RelPermalink }}" class="btn btn-s" id="cd-home">[ cd ~ agora ]</a>
 </div>
 

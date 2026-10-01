@@ -2,6 +2,7 @@
 {{ $recent := first 5 (sort (where .Site.RegularPages "Type" "in" (slice "challenges" "labs" "sherlocks")) "Date" "desc") }}
 
 <div class="hero fade-in">
+  <div class="hero-ghost" aria-hidden="true"></div>
   <h1 class="hero-title" data-text="{{ .Site.Params.handle }}">{{ .Site.Params.handle }}</h1>
   <p class="hero-sub">{{ .Site.Params.tagline }}</p>
 </div>
