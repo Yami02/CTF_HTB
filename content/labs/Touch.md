@@ -1,4 +1,3 @@
-Touch
 ---
 title: "Touch / Layover"
 date: 2026-10-10
